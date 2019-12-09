@@ -11,7 +11,7 @@ public class main {
     public static void main(String[] args) throws IOException {
 
         ArrayList<Integer> masses = new ArrayList<>();
-        File file = new File("C:\\Users\\SvenBergmann\\IdeaProjects\\AdventOfCode\\src\\Day1\\masses");
+        File file = new File("src/Day1/masses");
         Scanner scanner = new Scanner(file);
         while (scanner.hasNext()) {
             masses.add(Integer.parseInt(scanner.nextLine()));
@@ -19,18 +19,18 @@ public class main {
         scanner.close();
 
         int[] fuel = new int[masses.size()];
-        int fuelRemaining;
         for (int i = 0; i < masses.size(); i++) {
             fuel[i] = (masses.get(i) / 3) - 2;
         }
 
+        int fuelRemaining;
         ArrayList<Integer> fuelForFuel = new ArrayList<>();
         for (int i : fuel) {
             fuelRemaining = i;
             do {
                 fuelForFuel.add((fuelRemaining / 3) - 2);
                 fuelRemaining = fuelForFuel.get(fuelForFuel.size() - 1);
-            } while (fuelRemaining >= 15);
+            } while (fuelRemaining >= 9);
         }
 
         long fuelSum = 0;
