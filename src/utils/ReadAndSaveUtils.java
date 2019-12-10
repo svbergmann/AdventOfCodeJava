@@ -1,7 +1,9 @@
 package utils;
-import java.io.File;
+
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.FileReader;
+import java.util.stream.Collectors;
 
 /**
  * Class for read and save
@@ -9,13 +11,6 @@ import java.util.Scanner;
 public class ReadAndSaveUtils {
 
     public static String returnFileContent(String filename) throws FileNotFoundException {
-        File file = new File(filename);
-        Scanner scanner = new Scanner(file);
-        StringBuilder string = new StringBuilder();
-        while (scanner.hasNext()) {
-            string.append(scanner.next());
-        }
-        scanner.close();
-        return string.toString();
+        return new BufferedReader(new FileReader(filename)).lines().collect(Collectors.joining("\n"));
     }
 }
