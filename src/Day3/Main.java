@@ -25,17 +25,32 @@ public class Main {
 
         Set<Position> intersection = new HashSet<>(wire1.getPositions());
         intersection.retainAll(wire2.getPositions());
-        intersection.remove(new Position(0,0));
+        intersection.remove(new Position(0, 0));
 
         int minimumManhattenDistance = Integer.MAX_VALUE;
-        for(Position position:intersection) {
+        for (Position position : intersection) {
             int temp = position.getManhattenDistanceToZero();
-            if(minimumManhattenDistance > temp) {
+            if (minimumManhattenDistance > temp) {
                 minimumManhattenDistance = temp;
             }
         }
 
         System.out.println(minimumManhattenDistance);
+
+
+        //Task2
+        Wire wire1AsArrayList = new Wire(wirePieces1, true);
+        Wire wire2AsArrayList = new Wire(wirePieces2, true);
+
+        int feweststeps = Integer.MAX_VALUE;
+        for (Position position : intersection) {
+            int temp = wire1AsArrayList.getPositionsAsArrayList().indexOf(position) + 1 + wire2AsArrayList.getPositionsAsArrayList().indexOf(position) + 1;
+            if (feweststeps > temp) {
+                feweststeps = temp;
+            }
+        }
+
+        System.out.println(feweststeps);
 
     }
 

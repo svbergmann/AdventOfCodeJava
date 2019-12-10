@@ -36,7 +36,7 @@ public class Main {
             }
         }
 
-        //Day2
+        //Task2
 
         int result = 0;
         int nounResult=0;
