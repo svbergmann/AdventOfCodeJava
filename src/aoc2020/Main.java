@@ -22,35 +22,35 @@ import utils.Utilities;
 
 public class Main {
 
-  public static void main(String[] args) {
-    printResults(new Day17());
-  }
+	public static void main(String[] args) {
+		printResults(new Day17());
+	}
 
-  public static void printResults(Day day) {
-    System.out.println("Result of day " + day.number() + ":");
-    System.out.println(Utilities.PART_ONE + day.resultPartOne());
-    System.out.println(Utilities.PART_TWO + day.resultPartTwo());
-  }
+	public static void printResults(Day day) {
+		System.out.println("Result of day " + day.number() + ":");
+		System.out.println(Utilities.PART_ONE + day.resultPartOne());
+		System.out.println(Utilities.PART_TWO + day.resultPartTwo());
+	}
 
-  private static Day[] createDayArray() {
-    return new Day[] {
-      new Day1(),
-      new Day2(),
-      new Day3(),
-      new Day4(),
-      new Day5(),
-      new Day6(),
-      new Day7(),
-      new Day8(),
-      new Day9(),
-      new Day10(),
-      new Day11(),
-      new Day12(),
-      new Day13(),
-      new Day14(),
-      new Day15(),
-      new Day16(),
-      new Day17()
-    };
-  }
+	private static Day[] createDayArray() {
+		return new Day[]{
+				new Day1(),
+				new Day2(),
+				new Day3(),
+				new Day4(),
+				new Day5(),
+				new Day6(),
+				new Day7(),
+				new Day8(),
+				new Day9(),
+				new Day10(),
+				new Day11(),
+				new Day12(),
+				new Day13(),
+				new Day14(),
+				new Day15(),
+				new Day16(),
+				new Day17()
+		};
+	}
 }
