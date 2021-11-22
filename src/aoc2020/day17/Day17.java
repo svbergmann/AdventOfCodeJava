@@ -19,13 +19,11 @@ public class Day17 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		System.out.println("Initial state:");
-		this.printCubes();
 		for (var i = 1; i <= 6; i++) {
-			this.generateNeighborCubes(i == 1);
-			this.doCycle(i == 1);
-			System.out.println("After " + i + " cycle" + ((i == 1) ? "" : "s") + ":");
-			this.printCubes();
+			this.generateNeighborCubes();
+			this.doCycle();
+//			System.out.println("After " + i + " cycle" + ((i == 1) ? "" : "s") + ":");
+//			this.printCubes();
 		}
 		return String.valueOf(this.cubes.stream().filter(cube -> cube.active).count());
 	}
@@ -62,10 +60,15 @@ public class Day17 extends Day {
 					int finalX = x;
 					int finalY = y;
 					int finalZ = z;
-					System.out.print(this.cubes.stream().filter(cube ->
+					if (this.cubes.stream().anyMatch(cube ->
 							cube.x == finalX &&
 									cube.y == finalY &&
-									cube.z == finalZ).findFirst().get().active ? "#" : ".");
+									cube.z == finalZ)) {
+						System.out.print(this.cubes.stream().filter(cube ->
+								cube.x == finalX &&
+										cube.y == finalY &&
+										cube.z == finalZ).findFirst().get().active ? "#" : ".");
+					}
 				}
 				System.out.println();
 			}
@@ -73,28 +76,24 @@ public class Day17 extends Day {
 		}
 	}
 
-	private void generateNeighborCubes(boolean first) {
+	private void generateNeighborCubes() {
 		var cubesToAdd = new ArrayList<Cube>();
-		var yMax = this.cubes.stream().max(Cube::compareY).get().y;
 		this.cubes.forEach(cube -> {
 			for (var x = -1; x <= 1; x++) {
 				var neighborX = cube.x + x;
-				if (first && (neighborX > yMax || neighborX < -yMax)) continue;
 				for (var y = -1; y <= 1; y++) {
 					var neighborY = cube.y + y;
-					if (first && (neighborY > yMax || neighborY < -yMax)) continue;
 					for (var z = -1; z <= 1; z++) {
 						var neighborZ = cube.z + z;
-						if (cube.x != neighborX &&
-								cube.y != neighborY &&
-								cube.z != neighborZ) {
-							if (this.cubes.stream()
-									.noneMatch(cube1 ->
-											cube1.x == neighborX &&
-													cube1.y == neighborY &&
-													cube1.z == neighborZ)) {
-								cubesToAdd.add(new Cube(false, neighborX, neighborY, neighborZ));
-							}
+						if (cube.x == neighborX &&
+								cube.y == neighborY &&
+								cube.z == neighborZ) continue;
+						if (this.cubes.stream()
+								.noneMatch(cube1 ->
+										cube1.x == neighborX &&
+												cube1.y == neighborY &&
+												cube1.z == neighborZ)) {
+							cubesToAdd.add(new Cube(false, neighborX, neighborY, neighborZ));
 						}
 					}
 				}
@@ -103,53 +102,56 @@ public class Day17 extends Day {
 		this.cubes.addAll(cubesToAdd);
 	}
 
-	private void doCycle(boolean first) {
+	private void doCycle() {
+		var tmpCubes = new HashSet<Cube>();
 		this.cubes.forEach(cube -> {
-			var numActiveNeighbors = 0;
-			for (var x = -1; x <= 1; x++) {
-				var neighborX = cube.x + x;
-				for (var y = -1; y <= 1; y++) {
-					var neighborY = cube.y + y;
-					for (var z = -1; z <= 1; z++) {
-						var neighborZ = cube.z + z;
-						if (cube.x != neighborX ||
-								cube.y != neighborY ||
-								cube.z != neighborZ) {
-							if (this.cubes.stream()
-									.anyMatch(cube1 ->
-											cube1.x == neighborX &&
-													cube1.y == neighborY &&
-													cube1.z == neighborZ)) {
-								if (this.cubes.stream()
-										.filter(cube1 ->
-												cube1.x == neighborX &&
-														cube1.y == neighborY &&
-														cube1.z == neighborZ)
-										.findFirst()
-										.get()
-										.active) {
-									numActiveNeighbors++;
-								}
-							}
-						}
-					}
-				}
-			}
-			if (cube.active) {
+			var numActiveNeighbors = (int) this.getNeighborCubes(cube)
+					.stream()
+					.filter(cube1 -> cube1.active)
+					.count();
+			var tmpCube = new Cube(cube);
+			if (tmpCube.active) {
 				switch (numActiveNeighbors) {
 					case 2:
 					case 3:
 						break;
 					default:
-						cube.active = false;
+						tmpCube.active = false;
 						break;
 				}
 			} else {
 				if (numActiveNeighbors == 3) {
-					cube.active = true;
+					tmpCube.active = true;
 				}
 			}
+			tmpCubes.add(tmpCube);
 		});
+		this.cubes = tmpCubes;
+	}
+
+	private @NotNull List<Cube> getNeighborCubes(Cube cube) {
+		var res = new ArrayList<Cube>();
+		for (var x = -1; x <= 1; x++) {
+			var neighborX = cube.x + x;
+			for (var y = -1; y <= 1; y++) {
+				var neighborY = cube.y + y;
+				for (var z = -1; z <= 1; z++) {
+					var neighborZ = cube.z + z;
+					if (cube.x != neighborX ||
+							cube.y != neighborY ||
+							cube.z != neighborZ) {
+						for (Cube cube1 : this.cubes) {
+							if (cube1.x == neighborX &&
+									cube1.y == neighborY &&
+									cube1.z == neighborZ) {
+								res.add(cube1);
+							}
+						}
+					}
+				}
+			}
+		}
+		return res;
 	}
 
 	@Data
@@ -164,6 +166,13 @@ public class Day17 extends Day {
 			this.x = x;
 			this.y = y;
 			this.z = z;
+		}
+
+		public Cube(@NotNull Cube cube) {
+			this.active = cube.active;
+			this.x = cube.x;
+			this.y = cube.y;
+			this.z = cube.z;
 		}
 
 		@Override
