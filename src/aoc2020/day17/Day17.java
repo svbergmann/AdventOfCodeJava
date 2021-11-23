@@ -28,7 +28,7 @@ public class Day17 extends Day {
 
 	@Override
 	public String resultPartTwo() {
-		return this.solve4D(false);
+		return this.solve4D(true);
 	}
 
 	@Override
@@ -46,7 +46,6 @@ public class Day17 extends Day {
 			this.doCycle3D();
 			if (printCubes) {
 				System.out.println("After " + i + " cycle" + ((i == 1) ? "" : "s") + ":");
-				System.out.println();
 				this.printCubes3D();
 			}
 		}
@@ -103,14 +102,9 @@ public class Day17 extends Day {
 			System.out.println("z=" + z);
 			for (var x = -this.yMax; x <= this.yMax; x++) {
 				for (var y = -this.yMax; y <= this.yMax; y++) {
-					int finalX = x;
-					int finalY = y;
-					int finalZ = z;
-					if (this.cubes3D.keySet()
-							.stream()
-							.anyMatch(cube ->
-									cube.sameCoordinates(finalX, finalY, finalZ))) {
-						System.out.print(this.cubes3D.get(new Coordinate3D(finalX, finalY, finalZ)) ? "#" : ".");
+					var tmpCoord = this.cubes3D.get(new Coordinate3D(x, y, z));
+					if (tmpCoord != null) {
+						System.out.print(tmpCoord ? "#" : ".");
 					}
 				}
 				System.out.println();
@@ -124,20 +118,13 @@ public class Day17 extends Day {
 				System.out.println("z=" + z + ", w=" + w);
 				for (var x = -this.yMax; x <= this.yMax; x++) {
 					for (var y = -this.yMax; y <= this.yMax; y++) {
-						int finalX = x;
-						int finalY = y;
-						int finalZ = z;
-						int finalW = w;
-						if (this.cubes4D.keySet()
-								.stream()
-								.anyMatch(cube ->
-										cube.sameCoordinates(finalX, finalY, finalZ, finalW))) {
-							System.out.print(this.cubes4D.get(new Coordinate4D(finalX, finalY, finalZ, finalW)) ? "#" : ".");
+						var tmpCoord = this.cubes4D.get(new Coordinate4D(x, y, z, w));
+						if (tmpCoord != null) {
+							System.out.print(tmpCoord ? "#" : ".");
 						}
 					}
 					System.out.println();
 				}
-				System.out.println();
 			}
 		}
 	}
@@ -146,24 +133,19 @@ public class Day17 extends Day {
 		this.yMax++;
 		this.zMax++;
 		var cubesToAdd = new HashMap<Coordinate3D, Boolean>();
-		this.cubes3D.keySet()
-				.forEach(coordinate3D -> {
-					for (var x = -1; x <= 1; x++) {
-						var neighborX = coordinate3D.x + x;
-						for (var y = -1; y <= 1; y++) {
-							var neighborY = coordinate3D.y + y;
-							for (var z = -1; z <= 1; z++) {
-								var neighborZ = coordinate3D.z + z;
-								if (coordinate3D.sameCoordinates(neighborX, neighborY, neighborZ)) continue;
-								if (this.cubes3D.keySet()
-										.stream()
-										.noneMatch(cube1 -> cube1.sameCoordinates(neighborX, neighborY, neighborZ))) {
-									cubesToAdd.put(new Coordinate3D(neighborX, neighborY, neighborZ), false);
-								}
-							}
+		for (Coordinate3D coordinate3D : this.cubes3D.keySet()) {
+			for (var x = coordinate3D.x - 1; x <= coordinate3D.x + 1; x++) {
+				for (var y = coordinate3D.y - 1; y <= coordinate3D.y + 1; y++) {
+					for (var z = coordinate3D.z - 1; z <= coordinate3D.z + 1; z++) {
+						if (coordinate3D.sameCoordinates(x, y, z)) continue;
+						var tmpCoord = new Coordinate3D(x, y, z);
+						if (this.cubes3D.get(tmpCoord) == null) {
+							cubesToAdd.put(tmpCoord, false);
 						}
 					}
-				});
+				}
+			}
+		}
 		this.cubes3D.putAll(cubesToAdd);
 	}
 
@@ -171,89 +153,79 @@ public class Day17 extends Day {
 		this.yMax++;
 		this.zMax++;
 		var cubesToAdd = new HashMap<Coordinate4D, Boolean>();
-		this.cubes4D
-				.keySet()
-				.forEach(coordinate4D -> {
-					for (var x = -1; x <= 1; x++) {
-						var neighborX = coordinate4D.x + x;
-						for (var y = -1; y <= 1; y++) {
-							var neighborY = coordinate4D.y + y;
-							for (var z = -1; z <= 1; z++) {
-								var neighborZ = coordinate4D.z + z;
-								for (var w = -1; w <= 1; w++) {
-									var neighborW = coordinate4D.w + w;
-									if (coordinate4D.sameCoordinates(neighborX, neighborY, neighborZ, neighborW))
-										continue;
-									if (this.cubes4D.keySet()
-											.stream()
-											.noneMatch(cube1 -> cube1.sameCoordinates(neighborX, neighborY, neighborZ, neighborW))) {
-										cubesToAdd.put(new Coordinate4D(neighborX, neighborY, neighborZ, neighborW), false);
-									}
-								}
+		for (Coordinate4D coordinate4D : this.cubes4D.keySet()) {
+			for (var x = coordinate4D.x - 1; x <= coordinate4D.x + 1; x++) {
+				for (var y = coordinate4D.y - 1; y <= coordinate4D.y + 1; y++) {
+					for (var z = coordinate4D.z - 1; z <= coordinate4D.z + 1; z++) {
+						for (var w = coordinate4D.w - 1; w <= coordinate4D.w + 1; w++) {
+							if (coordinate4D.sameCoordinates(x, y, z, w)) {
+								continue;
+							}
+							var tmpCoord = new Coordinate4D(x, y, z, w);
+							if (this.cubes4D.get(tmpCoord) == null) {
+								cubesToAdd.put(tmpCoord, false);
 							}
 						}
 					}
-				});
+				}
+			}
+		}
 		this.cubes4D.putAll(cubesToAdd);
 	}
 
 	private void doCycle3D() {
 		var tmpCubes = new HashMap<Coordinate3D, Boolean>();
-		this.cubes3D.keySet()
-				.forEach(coordinate3D -> {
-					var numActiveNeighbors = (int) coordinate3D.getNeighborCubes()
-							.stream()
-							.filter(coordinate3D1 ->
-							{
-								var active = this.cubes3D.get(coordinate3D1);
-								return active != null && active;
-							})
-							.count();
-					if (this.cubes3D.get(coordinate3D)) {
-						switch (numActiveNeighbors) {
-							case 2:
-							case 3:
-								break;
-							default:
-								tmpCubes.put(new Coordinate3D(coordinate3D), false);
-								break;
-						}
-					} else {
-						if (numActiveNeighbors == 3) {
-							tmpCubes.put(new Coordinate3D(coordinate3D), true);
-						}
-					}
-				});
+		for (Coordinate3D coordinate3D : this.cubes3D.keySet()) {
+			var numActiveNeighbors = 0;
+			for (Coordinate3D coordinate3D1 : coordinate3D.getNeighborCubes()) {
+				var active = this.cubes3D.get(coordinate3D1);
+				if (active != null && active) {
+					numActiveNeighbors++;
+				}
+			}
+			if (this.cubes3D.get(coordinate3D)) {
+				switch (numActiveNeighbors) {
+					case 2:
+					case 3:
+						break;
+					default:
+						tmpCubes.put(new Coordinate3D(coordinate3D), false);
+						break;
+				}
+			} else {
+				if (numActiveNeighbors == 3) {
+					tmpCubes.put(new Coordinate3D(coordinate3D), true);
+				}
+			}
+		}
 		this.cubes3D.putAll(tmpCubes);
 	}
 
 	private void doCycle4D() {
 		var tmpCubes = new HashMap<Coordinate4D, Boolean>();
-		this.cubes4D.keySet()
-				.forEach(coordinate4D -> {
-					var numActiveNeighbors = (int) coordinate4D.getNeighborCubes()
-							.stream()
-							.filter(coordinate4D1 ->
-							{
-								var active = this.cubes4D.get(coordinate4D1);
-								return active != null && active;
-							})
-							.count();
-					if (this.cubes4D.get(coordinate4D)) {
-						switch (numActiveNeighbors) {
-							case 2:
-							case 3:
-								break;
-							default:
-								tmpCubes.put(new Coordinate4D(coordinate4D), false);
-								break;
-						}
-					} else {
-						if (numActiveNeighbors == 3) {
-							tmpCubes.put(new Coordinate4D(coordinate4D), true);
-						}
-					}
-				});
+		for (Coordinate4D coordinate4D : this.cubes4D.keySet()) {
+			var numActiveNeighbors = 0;
+			for (Coordinate4D coordinate4D1 : coordinate4D.getNeighborCubes()) {
+				var active = this.cubes4D.get(coordinate4D1);
+				if (active != null && active) {
+					numActiveNeighbors++;
+				}
+			}
+			if (this.cubes4D.get(coordinate4D)) {
+				switch (numActiveNeighbors) {
+					case 2:
+					case 3:
+						break;
+					default:
+						tmpCubes.put(new Coordinate4D(coordinate4D), false);
+						break;
+				}
+			} else {
+				if (numActiveNeighbors == 3) {
+					tmpCubes.put(new Coordinate4D(coordinate4D), true);
+				}
+			}
+		}
 		this.cubes4D.putAll(tmpCubes);
 	}
 
