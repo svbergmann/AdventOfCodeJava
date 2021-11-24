@@ -1,5 +1,6 @@
 package aoc2020.day10;
 
+import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ public class Day10 extends Day {
 		this.sortedJoltAdapters = new ArrayList<>();
 		// Add 0 to the beginning
 		this.sortedJoltAdapters.add(0);
-		this.input.stream()
+		this.example.stream()
 				.mapToInt(Integer::parseInt)
 				.sorted()
 				.boxed()
@@ -44,7 +45,7 @@ public class Day10 extends Day {
 		return this.getArrangementsIt(this.sortedJoltAdapters) + "";
 	}
 
-	private int getArrangementsRec(List<Integer> list) {
+	private int getArrangementsRec(@NotNull List<Integer> list) {
 		var differentArrangements = 0;
 		if (list.size() == 1 || list.size() == 0) return 1;
 
@@ -71,34 +72,40 @@ public class Day10 extends Day {
 		return differentArrangements;
 	}
 
-	public int getArrangementsIt(List<Integer> list) {
-		var differentArrangements = 1;
+	public long getArrangementsIt(@NotNull List<Integer> list) {
+		long differentArrangements = 1;
 		var shift = 0;
+		var tmp = 0;
 
 		while (list.size() > 1) {
-			System.out.println(list);
-			shift = 1;
+			shift = 0;
+			tmp = 1;
 			switch (list.get(1) - list.get(0)) {
 				case 1 -> {
 					switch (list.get(2) - list.get(0)) {
 						case 2 -> {
-							shift++;
+							shift = 2;
+							tmp = 2;
 							if (list.get(3) - list.get(0) == 3) {
-								shift++;
+								shift = 3;
+								tmp = 4;
 							}
 						}
-						case 3 -> shift += 2;
+						case 3 -> {
+							shift = 2;
+							tmp = 2;
+						}
 					}
 				}
 				case 2 -> {
 					if (list.get(2) - list.get(0) == 3) {
-						shift++;
+						shift = 2;
+						tmp = 2;
 					}
 				}
 			}
-			if (shift > 1) {
-				differentArrangements += shift;
-			}
+
+			differentArrangements *= tmp;
 			list = list.subList(1, list.size());
 		}
 		return differentArrangements;
