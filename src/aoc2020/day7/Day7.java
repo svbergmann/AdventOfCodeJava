@@ -1,9 +1,10 @@
 package aoc2020.day7;
 
-import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Day7 extends Day {
 
@@ -11,51 +12,65 @@ public class Day7 extends Day {
 
 	public Day7() {
 		super(2020, 7);
-
 		this.bags = new ArrayList<>();
 
-		this.example.forEach(
-				s -> {
-					String[] line = s.split("contain");
-					String color = line[0].split("bags")[0].trim();
-					ArrayList<Bag> containingBags = new ArrayList<>();
-					if (!line[1].trim().matches("no other bags.")) {
-						String[] containingBagsString = line[1].split(",");
-						for (String s1 : containingBagsString) {
-							String[] containingBag = s1.trim().split("\\s");
-							String containingBagColor = containingBag[1].trim() + " " + containingBag[2].trim();
-							containingBags.add(
-									new Bag(containingBagColor, null, Integer.parseInt(containingBag[0])));
-						}
-					}
-					Bag tmpBag = new Bag(color, containingBags, 1);
-					boolean parentBag = true;
-					for (Bag bag : this.bags) {
-						parentBag = bag.overrideIfContaining(tmpBag);
-					}
-					if (parentBag) {
-						this.bags.add(tmpBag);
-					}
-				});
-		for (Bag bag : this.bags) {
-			System.out.println(bag.toString());
+		for (var s : this.input) {
+			this.bags.add(
+					new Bag(s.split("contain")[0].split("bags")[0].trim(), null)
+			);
 		}
+
+		for (var s : this.input) {
+			if (!s.split("contain")[1].trim().matches("no other bags.")) {
+				var parentBagColor = s.split("contain")[0].split("bags")[0].trim();
+				var containingBagsString = s.split("contain")[1].split(",");
+				for (var s1 : containingBagsString) {
+					var containingBag = s1.trim().split("\\s");
+					var numberOfBags = Integer.parseInt(containingBag[0].trim().substring(0, 1));
+					var containingBagColor = containingBag[1].trim() + " " + containingBag[2].trim();
+					var actualBag = this.bags.stream()
+							.filter(bag -> bag.color.equals(containingBagColor))
+							.findFirst().get();
+					var parentBag = this.bags.stream()
+							.filter(bag -> bag.color.equals(parentBagColor))
+							.findFirst().get();
+					parentBag.addBag(actualBag, numberOfBags);
+				}
+			}
+		}
+	}
+
+	private static int getNumShinyGoldBagsRek(@NotNull Bag bag) {
+		var num = 0;
+		if (bag.bags.keySet().stream().anyMatch(bag1 -> bag1.color.equals("shiny gold"))) {
+			return 1;
+		}
+		for (var bag1 : bag.bags.keySet()) {
+			num += getNumShinyGoldBagsRek(bag1);
+		}
+		return num;
 	}
 
 	@Override
 	public String resultPartOne() {
-		int counter = 0;
+		var counter = 0;
 		for (Bag bag : this.bags) {
-			if (bag.canHoldShinyGoldBag()) {
-				counter++;
-			}
+			var tmp = getNumShinyGoldBagsRek(bag);
+			counter += (tmp > 0) ? 1 : 0;
 		}
 		return String.valueOf(counter);
 	}
 
 	@Override
 	public String resultPartTwo() {
-		return null;
+		var counter = 0;
+		for (Bag bag : this.bags) {
+			if (bag.color.equals("shiny gold")) {
+				counter = bag.getContainingBagsRek();
+				break;
+			}
+		}
+		return String.valueOf(counter);
 	}
 
 	@Override
@@ -63,45 +78,28 @@ public class Day7 extends Day {
 		return 7;
 	}
 
-	@Data
-	private static class Bag {
-		private final String color;
-		private final int numberOfBags;
-		private ArrayList<Bag> bags;
-
-		Bag(String color, ArrayList<Bag> bags, int numberOfBags) {
+	private record Bag(String color, HashMap<Bag, Integer> bags) {
+		private Bag(String color, HashMap<Bag, Integer> bags) {
 			this.color = color;
-			this.bags = bags;
-			this.numberOfBags = numberOfBags;
+			this.bags = (bags == null) ? new HashMap<>() : bags;
 		}
 
-		boolean overrideIfContaining(Bag bag) {
-			if (this.color.equals(bag.color)) {
-				this.bags = bag.bags;
-				return true;
-			} else if (this.bags == null || this.bags.isEmpty()) {
-				return false;
-			} else {
-				for (Bag bag1 : this.bags) {
-					return bag1.overrideIfContaining(bag);
-				}
-			}
-			return false;
+		public void addBag(Bag bag, int numberOfBags) {
+			this.bags.put(bag, numberOfBags);
 		}
 
-		boolean canHoldShinyGoldBag() {
-			if (this.bags == null || this.bags.isEmpty()) {
-				return false;
-			} else {
-				for (Bag bag : this.bags) {
-					if (bag.color.equals("shiny gold")) {
-						return true;
-					} else {
-						return bag.canHoldShinyGoldBag();
-					}
-				}
+		private int getContainingBagsRek() {
+			var num = 0;
+			if (this.bags.isEmpty()) {
+				return 1;
 			}
-			return false;
+			for (var entry : this.bags.entrySet()) {
+				if (!entry.getKey().bags.isEmpty()) {
+					num += entry.getValue();
+				}
+				num += entry.getKey().getContainingBagsRek() * entry.getValue();
+			}
+			return num;
 		}
 	}
 }

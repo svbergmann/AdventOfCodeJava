@@ -23,7 +23,7 @@ import utils.Utilities;
 public class Main {
 
 	public static void main(String[] args) {
-		printResults(new Day10());
+		printResults(new Day7());
 	}
 
 	public static void printResults(Day day) {
