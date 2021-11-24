@@ -9,6 +9,7 @@ import aoc2020.day14.Day14;
 import aoc2020.day15.Day15;
 import aoc2020.day16.Day16;
 import aoc2020.day17.Day17;
+import aoc2020.day18.Day18;
 import aoc2020.day2.Day2;
 import aoc2020.day3.Day3;
 import aoc2020.day4.Day4;
@@ -23,7 +24,7 @@ import utils.Utilities;
 public class Main {
 
 	public static void main(String[] args) {
-		printResults(new Day7());
+		printResults(new Day18());
 	}
 
 	public static void printResults(Day day) {

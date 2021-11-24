@@ -18,7 +18,7 @@ public class Utilities {
 	 *
 	 * @param year        the specific year
 	 * @param numberOfDay the specific day
-	 * @param example     if the returned file shall be the example file
+	 * @param example     if the returned file shall be the example.txt file
 	 * @return an ArrayList of the lines or an empty one if reading did not work
 	 */
 	public static @NotNull ArrayList<String> readFromFile(

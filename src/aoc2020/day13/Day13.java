@@ -50,13 +50,7 @@ public class Day13 extends Day {
 		return 13;
 	}
 
-	private static class Bus {
-		private final int busID;
-
-		Bus(int busID) {
-			this.busID = busID;
-		}
-
+	private record Bus(int busID) {
 		public boolean canDepartAtTimestamp(int timestamp) {
 			return timestamp % this.busID == 0;
 		}
