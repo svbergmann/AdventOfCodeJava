@@ -41,7 +41,67 @@ public class Day10 extends Day {
 
 	@Override
 	public String resultPartTwo() {
-		return null;
+		return this.getArrangementsIt(this.sortedJoltAdapters) + "";
+	}
+
+	private int getArrangementsRec(List<Integer> list) {
+		var differentArrangements = 0;
+		if (list.size() == 1 || list.size() == 0) return 1;
+
+		differentArrangements += this.getArrangementsRec(list.subList(1, list.size()));
+
+		switch (list.get(1) - list.get(0)) {
+			case 1 -> {
+				if (list.get(2) - list.get(0) == 2) {
+					differentArrangements += this.getArrangementsRec(list.subList(2, list.size()));
+					if (list.get(3) - list.get(0) == 3) {
+						differentArrangements += this.getArrangementsRec(list.subList(3, list.size()));
+					}
+				}
+				if (list.get(2) - list.get(0) == 3) {
+					differentArrangements += this.getArrangementsRec(list.subList(2, list.size()));
+				}
+			}
+			case 2 -> {
+				if (list.get(2) - list.get(0) == 3) {
+					differentArrangements += this.getArrangementsRec(list.subList(2, list.size()));
+				}
+			}
+		}
+		return differentArrangements;
+	}
+
+	public int getArrangementsIt(List<Integer> list) {
+		var differentArrangements = 1;
+		var shift = 0;
+
+		while (list.size() > 1) {
+			System.out.println(list);
+			shift = 1;
+			switch (list.get(1) - list.get(0)) {
+				case 1 -> {
+					switch (list.get(2) - list.get(0)) {
+						case 2 -> {
+							shift++;
+							if (list.get(3) - list.get(0) == 3) {
+								shift++;
+							}
+						}
+						case 3 -> shift += 2;
+					}
+				}
+				case 2 -> {
+					if (list.get(2) - list.get(0) == 3) {
+						shift++;
+					}
+				}
+			}
+			if (shift > 1) {
+				differentArrangements += shift;
+			}
+			list = list.subList(1, list.size());
+		}
+		return differentArrangements;
 	}
 
 	@Override
