@@ -45,11 +45,6 @@ public class Day13 extends Day {
 		return null;
 	}
 
-	@Override
-	public int number() {
-		return 13;
-	}
-
 	private record Bus(int busID) {
 		public boolean canDepartAtTimestamp(int timestamp) {
 			return timestamp % this.busID == 0;

@@ -57,11 +57,6 @@ public class Day16 extends Day {
 		return null;
 	}
 
-	@Override
-	public int number() {
-		return 16;
-	}
-
 	private static class Rules {
 		private final HashMap<String, int[]> hashMap;
 

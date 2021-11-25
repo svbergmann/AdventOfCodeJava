@@ -57,7 +57,6 @@ public class Day18 extends Day {
 				}
 			}
 		}
-		System.out.println(input + " = " + res);
 		return res;
 	}
 
@@ -71,10 +70,5 @@ public class Day18 extends Day {
 	@Override
 	public String resultPartTwo() {
 		return null;
-	}
-
-	@Override
-	public int number() {
-		return 18;
 	}
 }

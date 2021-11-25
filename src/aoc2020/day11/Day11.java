@@ -26,11 +26,6 @@ public class Day11 extends Day {
 		return String.valueOf(this.countOccupiedSeats());
 	}
 
-	@Override
-	public int number() {
-		return 11;
-	}
-
 	private void initSeatsArray(boolean example) {
 		ArrayList<String> tmp;
 		if (example) {

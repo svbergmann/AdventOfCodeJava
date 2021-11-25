@@ -73,11 +73,6 @@ public class Day7 extends Day {
 		return String.valueOf(counter);
 	}
 
-	@Override
-	public int number() {
-		return 7;
-	}
-
 	private record Bag(String color, HashMap<Bag, Integer> bags) {
 		private Bag(String color, HashMap<Bag, Integer> bags) {
 			this.color = color;

@@ -80,9 +80,4 @@ public class Day15 extends Day {
 			this.spokenNumbers.add(lastIndex - this.spokenNumbers.subList(0, lastIndex).lastIndexOf(tmp));
 		}
 	}
-
-	@Override
-	public int number() {
-		return 15;
-	}
 }

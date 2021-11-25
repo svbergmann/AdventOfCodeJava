@@ -52,11 +52,6 @@ public class Day3 extends Day {
 		return one.multiply(two).multiply(three).multiply(four).multiply(five).toString();
 	}
 
-	@Override
-	public int number() {
-		return 3;
-	}
-
 	private int numberOfTrees(int down, int right) {
 		int counter = 0;
 		int j = right;

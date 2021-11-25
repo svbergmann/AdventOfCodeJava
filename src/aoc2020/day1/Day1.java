@@ -52,9 +52,4 @@ public class Day1 extends Day {
 		}
 		return res.toString();
 	}
-
-	@Override
-	public int number() {
-		return 1;
-	}
 }

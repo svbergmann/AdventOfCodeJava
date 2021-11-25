@@ -22,11 +22,6 @@ public class Day12 extends Day {
 		return null;
 	}
 
-	@Override
-	public int number() {
-		return 12;
-	}
-
 	private static class Ship {
 		char movingDirection = 'E';
 		int positionEast = 0;

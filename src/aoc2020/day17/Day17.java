@@ -31,11 +31,6 @@ public class Day17 extends Day {
 		return this.solve4D(true);
 	}
 
-	@Override
-	public int number() {
-		return 17;
-	}
-
 	private @NotNull String solve3D(boolean printCubes) {
 		if (printCubes) {
 			System.out.println("Initial state:");

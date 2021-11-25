@@ -110,9 +110,4 @@ public class Day10 extends Day {
 		}
 		return differentArrangements;
 	}
-
-	@Override
-	public int number() {
-		return 10;
-	}
 }

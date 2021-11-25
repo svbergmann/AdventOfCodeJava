@@ -72,11 +72,6 @@ public class Day8 extends Day {
 		return String.valueOf(accumulator);
 	}
 
-	@Override
-	public int number() {
-		return 8;
-	}
-
 	/**
 	 * Executes all instructions and stops if a instruction would be executed twice.
 	 *

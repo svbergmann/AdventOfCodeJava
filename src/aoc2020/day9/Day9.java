@@ -30,11 +30,6 @@ public class Day9 extends Day {
 						this.checkForWeakness(this.lengthOfPreamble, this.numbers), this.numbers));
 	}
 
-	@Override
-	public int number() {
-		return 9;
-	}
-
 	private long checkForWeakness(int lengthOfPreamble, List<Long> numbers) {
 		int counter = lengthOfPreamble;
 		int indexToBeChecked = lengthOfPreamble + 1;

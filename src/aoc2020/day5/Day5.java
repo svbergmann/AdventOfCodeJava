@@ -80,11 +80,6 @@ public class Day5 extends Day {
 		return String.valueOf(seatID);
 	}
 
-	@Override
-	public int number() {
-		return 5;
-	}
-
 	@Data
 	private static class Seat {
 		private final int row;

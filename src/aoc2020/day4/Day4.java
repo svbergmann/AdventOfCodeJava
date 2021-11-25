@@ -100,11 +100,6 @@ public class Day4 extends Day {
 		return String.valueOf(counter);
 	}
 
-	@Override
-	public int number() {
-		return 4;
-	}
-
 	@Data
 	private static class Passport {
 		private int byr;

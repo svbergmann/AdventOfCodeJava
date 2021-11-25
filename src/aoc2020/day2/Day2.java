@@ -66,9 +66,4 @@ public class Day2 extends Day {
 				});
 		return counter.toString();
 	}
-
-	@Override
-	public int number() {
-		return 2;
-	}
 }

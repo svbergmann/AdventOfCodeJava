@@ -46,9 +46,4 @@ public class Day14 extends Day {
 	public String resultPartTwo() {
 		return null;
 	}
-
-	@Override
-	public int number() {
-		return 14;
-	}
 }

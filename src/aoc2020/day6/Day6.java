@@ -88,11 +88,6 @@ public class Day6 extends Day {
 		return String.valueOf(counter);
 	}
 
-	@Override
-	public int number() {
-		return 6;
-	}
-
 	@Data
 	private static class Group {
 		private final int numberOfPeople;
