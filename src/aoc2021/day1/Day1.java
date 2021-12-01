@@ -2,17 +2,22 @@ package aoc2021.day1;
 
 import utils.Day;
 
+import java.util.List;
+
 public class Day1 extends Day {
+
+	private final List<Integer> numbers;
 
 	public Day1() {
 		super(2021, 1);
+		this.numbers = this.input.stream().mapToInt(Integer::parseInt).boxed().toList();
 	}
 
 	@Override
 	public String resultPartOne() {
 		var increasedCounter = 0;
-		for (var i = 0; i < this.input.size() - 1; i++) {
-			if (Integer.parseInt(this.input.get(i)) < Integer.parseInt(this.input.get(i + 1))) {
+		for (var i = 0; i < this.numbers.size() - 1; i++) {
+			if (this.numbers.get(i) < this.numbers.get(i + 1)) {
 				increasedCounter++;
 			}
 		}
@@ -21,16 +26,19 @@ public class Day1 extends Day {
 
 	@Override
 	public String resultPartTwo() {
+		return this.partTwo() + "";
+	}
+
+	private int partTwo() {
 		var increasedCounter = 0;
-		for (var i = 0; i < this.input.size() - 3; i++) {
-			var a1 = Integer.parseInt(this.input.get(i));
-			var a2 = Integer.parseInt(this.input.get(i + 1));
-			var a3 = Integer.parseInt(this.input.get(i + 2));
-			var a4 = Integer.parseInt(this.input.get(i + 3));
-			var a = a1 + a2 + a3;
-			var b = a2 + a3 + a4;
-			if (a < b) increasedCounter++;
+		int a1, a2, a3, a4;
+		for (var i = 0; i < this.numbers.size() - 3; i++) {
+			a1 = this.numbers.get(i);
+			a2 = this.numbers.get(i + 1);
+			a3 = this.numbers.get(i + 2);
+			a4 = this.numbers.get(i + 3);
+			if (a1 + a2 + a3 < a2 + a3 + a4) increasedCounter++;
 		}
-		return increasedCounter + "";
+		return increasedCounter;
 	}
 }
