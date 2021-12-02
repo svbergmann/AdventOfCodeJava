@@ -10,19 +10,15 @@ public class Day2 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var horizontal = 0;
-		var vertical = 0;
-		for (var s : this.input) {
-			var value = Integer.parseInt(s.substring(s.length() - 1));
-			if (s.startsWith("forward")) horizontal += value;
-			else if (s.startsWith("down")) vertical += value;
-			else if (s.startsWith("up")) vertical -= value;
-		}
-		return horizontal * vertical + "";
+		return this.computePos(true) + "";
 	}
 
 	@Override
 	public String resultPartTwo() {
+		return this.computePos(false) + "";
+	}
+
+	private int computePos(boolean first) {
 		var horizontal = 0;
 		var depth = 0;
 		var aim = 0;
@@ -30,13 +26,15 @@ public class Day2 extends Day {
 			var value = Integer.parseInt(s.substring(s.length() - 1));
 			if (s.startsWith("forward")) {
 				horizontal += value;
-				depth += aim * value;
+				if (!first) depth += aim * value;
 			} else if (s.startsWith("down")) {
-				aim += value;
+				if (first) depth += value;
+				else aim += value;
 			} else if (s.startsWith("up")) {
-				aim -= value;
+				if (first) depth -= value;
+				else aim -= value;
 			}
 		}
-		return horizontal * depth + "";
+		return horizontal * depth;
 	}
 }
