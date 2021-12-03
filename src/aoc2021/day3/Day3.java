@@ -1,5 +1,6 @@
 package aoc2021.day3;
 
+import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
 public class Day3 extends Day {
@@ -12,14 +13,8 @@ public class Day3 extends Day {
 	public String resultPartOne() {
 		StringBuilder gammaRate = new StringBuilder();
 		StringBuilder epsilonRate = new StringBuilder();
-		var lengthOfArray = this.input.get(1).length();
-		int[] numberOfOneBits = new int[lengthOfArray];
-		for (String s : this.input) {
-			for (var j = 0; j < lengthOfArray; j++) {
-				if (s.charAt(j) == '1') numberOfOneBits[j]++;
-			}
-		}
-		for (var i = 0; i < lengthOfArray; i++) {
+		int[] numberOfOneBits = this.getSignificantBits(false);
+		for (var i = 0; i < this.input.get(1).length(); i++) {
 			if (numberOfOneBits[i] > this.input.size() / 2) {
 				gammaRate.append("1");
 				epsilonRate.append("0");
@@ -34,5 +29,16 @@ public class Day3 extends Day {
 	@Override
 	public String resultPartTwo() {
 		return null;
+	}
+
+	private int @NotNull [] getSignificantBits(boolean example) {
+		var lengthOfArray = example ? this.example.get(1).length() : this.input.get(1).length();
+		int[] numberOfOneBits = new int[lengthOfArray];
+		for (String s : (example ? this.example : this.input)) {
+			for (var j = 0; j < lengthOfArray; j++) {
+				if (s.charAt(j) == '1') numberOfOneBits[j]++;
+			}
+		}
+		return numberOfOneBits;
 	}
 }
