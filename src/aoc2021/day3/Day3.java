@@ -70,27 +70,19 @@ public class Day3 extends Day {
     private int getRemainingIntValue(List<String> list, boolean mostSignificantBit) {
         char[] significantBits;
         var j = 0;
-        boolean sameBit = false;
+        boolean sameBit;
         while (j < this.getSignificantBits(list).length) {
             significantBits = this.getSignificantBits(list);
             if (list.size() > 2) {
                 var mostCommonBit = significantBits[j];
-                if (mostCommonBit == '2') {
-                    sameBit = true;
-                }
+                sameBit = mostCommonBit == '2';
                 for (var i = list.size() - 1; i >= 0; i--) {
                     if (mostSignificantBit) {
-                        if (sameBit && list.get(i).charAt(j) != '1') {
-                            list.remove(i);
-                        } else if (list.get(i).charAt(j) != mostCommonBit) {
+                        if (sameBit && list.get(i).charAt(j) != '1' || list.get(i).charAt(j) != mostCommonBit) {
                             list.remove(i);
                         }
-                    } else {
-                        if (sameBit && list.get(i).charAt(j) != '0') {
-                            list.remove(i);
-                        } else if (list.get(i).charAt(j) == mostCommonBit) {
-                            list.remove(i);
-                        }
+                    } else if (sameBit && list.get(i).charAt(j) != '0' || list.get(i).charAt(j) == mostCommonBit) {
+                        list.remove(i);
                     }
                 }
             } else if (list.size() == 2) {
@@ -100,9 +92,7 @@ public class Day3 extends Day {
                     for (var i = list.size() - 1; i >= 0; i--) {
                         if (mostSignificantBit) {
                             if (list.get(i).charAt(j) != '1') list.remove(i);
-                        } else {
-                            if (list.get(i).charAt(j) == '1') list.remove(i);
-                        }
+                        } else if (list.get(i).charAt(j) == '1') list.remove(i);
                     }
                 }
             }
