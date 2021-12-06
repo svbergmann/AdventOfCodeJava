@@ -35,4 +35,16 @@ public class Utilities {
         }
         return res;
     }
+
+    public static String getTwoDimArraySting(int[][] twoDimArray) {
+        StringBuilder res = new StringBuilder();
+        for (int[] ints : twoDimArray) {
+            for (int anInt : ints) {
+                if (anInt == 0) res.append(".");
+                else res.append(anInt);
+            }
+            res.append("\n");
+        }
+        return res.toString();
+    }
 }
