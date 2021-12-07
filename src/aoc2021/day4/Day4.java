@@ -34,25 +34,12 @@ public class Day4 extends Day {
 	public String resultPartTwo() {
 		this.init(false);
 		for (var i : this.drawnNumbers) {
-//			if (this.boards.size() < 4) {
-//				this.boards.forEach(board -> {
-//					board.printNumbers();
-//					System.out.println("---");
-//				});
-//			}
 			this.boards.forEach(board -> board.draw(i));
-//			System.out.println(i + " drawn");
-//			if (this.boards.size() < 4) {
-//				this.boards.forEach(board -> {
-//					board.printNumbers();
-//					System.out.println("---");
-//				});
-//			}
-			this.boards.removeIf(Board::won);
-			if (this.boards.size() == 1) {
+			if (this.boards.size() == 1 && this.boards.get(0).won()) {
 				return this.boards.get(0).sumUnmarkedNumbers() + " * " + i + " = "
 						+ this.boards.get(0).sumUnmarkedNumbers() * i + "";
 			}
+			this.boards.removeIf(Board::won);
 		}
 		return "No winning score found!";
 	}
@@ -85,11 +72,15 @@ public class Day4 extends Day {
 		private final boolean[][] active;
 
 		public Board(int[][] numbers) {
-			this.numbers = new int[numbers.length][numbers.length];
-			for (var i = 0; i < numbers.length; i++) {
-				System.arraycopy(numbers[i], 0, this.numbers[i], 0, numbers.length);
+			if (numbers != null) {
+				this.numbers = new int[numbers.length][numbers.length];
+				for (var i = 0; i < numbers.length; i++) {
+					System.arraycopy(numbers[i], 0, this.numbers[i], 0, numbers.length);
+				}
+				this.active = new boolean[numbers.length][numbers.length];
+			} else {
+				throw new IllegalArgumentException("Cannot create Board!");
 			}
-			this.active = new boolean[numbers.length][numbers.length];
 		}
 
 		public void draw(int number) {
