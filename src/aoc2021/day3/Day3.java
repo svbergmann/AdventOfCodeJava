@@ -14,8 +14,8 @@ public class Day3 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		StringBuilder gammaRate = new StringBuilder();
-		StringBuilder epsilonRate = new StringBuilder();
+		var gammaRate = new StringBuilder();
+		var epsilonRate = new StringBuilder();
 		var significantBits = this.getSignificantBits(this.input);
 		for (var i = 0; i < this.input.get(1).length(); i++) {
 			if (significantBits[i] == '1') {

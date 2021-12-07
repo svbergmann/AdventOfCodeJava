@@ -12,7 +12,10 @@ public class Day7 extends Day {
 
 	public Day7() {
 		super(2021, 7);
-		this.crabPositions = new ArrayList<>(Arrays.stream(this.input.get(0).split(",")).map(Integer::parseInt).sorted().toList());
+		this.crabPositions = new ArrayList<>(Arrays.stream(this.input.get(0).split(","))
+				.map(Integer::parseInt)
+				.sorted()
+				.toList());
 	}
 
 	@Override

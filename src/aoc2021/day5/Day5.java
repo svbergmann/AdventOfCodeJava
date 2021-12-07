@@ -19,25 +19,23 @@ public class Day5 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var res = 0;
-		for (var i : this.system) {
-			for (var j : i) {
-				if (j >= 2) res++;
-			}
-		}
-		return res + "";
+		return Arrays.stream(this.system)
+				.mapToInt(i -> (int) Arrays.stream(i)
+						.filter(j -> j >= 2)
+						.count())
+				.sum()
+				+ "";
 	}
 
 	@Override
 	public String resultPartTwo() {
 		this.setDiagonalLines(false);
-		var res = 0;
-		for (var i : this.system) {
-			for (var j : i) {
-				if (j >= 2) res++;
-			}
-		}
-		return res + "";
+		return Arrays.stream(this.system)
+				.mapToInt(i -> (int) Arrays.stream(i)
+						.filter(j -> j >= 2)
+						.count())
+				.sum()
+				+ "";
 	}
 
 	private int getMaxNum(boolean example) {

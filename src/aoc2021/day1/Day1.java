@@ -3,6 +3,7 @@ package aoc2021.day1;
 import utils.Day;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Day1 extends Day {
 
@@ -15,13 +16,10 @@ public class Day1 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var increasedCounter = 0;
-		for (var i = 0; i < this.numbers.size() - 1; i++) {
-			if (this.numbers.get(i) < this.numbers.get(i + 1)) {
-				increasedCounter++;
-			}
-		}
-		return increasedCounter + "";
+		return IntStream.range(0, this.numbers.size() - 1)
+				.filter(i -> this.numbers.get(i) < this.numbers.get(i + 1))
+				.count()
+				+ "";
 	}
 
 	@Override

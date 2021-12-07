@@ -4,6 +4,7 @@ import utils.Day;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class Day6 extends Day {
 
@@ -13,13 +14,13 @@ public class Day6 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var list = new ArrayList<>(Arrays.stream(this.input.get(0).split(",")).map(s -> new Lanternfish(Integer.parseInt(s))).toList());
+		var list = new ArrayList<>(Arrays.stream(this.input.get(0).split(","))
+				.map(s -> new Lanternfish(Integer.parseInt(s))).toList());
 		for (var i = 0; i < 80; i++) {
-			var appendList = new ArrayList<Lanternfish>();
-			for (var l : list) {
-				if (l.dayPassed()) appendList.add(new Lanternfish(8));
-			}
-			list.addAll(appendList);
+			list.addAll(list.stream()
+					.filter(Lanternfish::dayPassed)
+					.map(l -> new Lanternfish(8))
+					.collect(Collectors.toCollection(ArrayList::new)));
 		}
 		return list.size() + "";
 	}
