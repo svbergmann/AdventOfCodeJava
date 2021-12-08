@@ -13,13 +13,13 @@ public class Wire {
 
 	public Wire(WirePiece[] wirePieces) {
 		for (WirePiece wirePiece : wirePieces) {
-			positions.addAll(Arrays.asList(wirePiece.getPositions()));
+			this.positions.addAll(Arrays.asList(wirePiece.getPositions()));
 		}
 	}
 
 	public Wire(WirePiece[] wirePieces, boolean array) {
 		for (WirePiece wirePiece : wirePieces) {
-			positionsAsArrayList.addAll(Arrays.asList(wirePiece.getPositions()));
+			this.positionsAsArrayList.addAll(Arrays.asList(wirePiece.getPositions()));
 		}
 	}
 
@@ -27,17 +27,17 @@ public class Wire {
 	public String toString() {
 		return "Wire{"
 				+ "positions="
-				+ positions
+				+ this.positions
 				+ ", positionsAsArrayList="
-				+ positionsAsArrayList
+				+ this.positionsAsArrayList
 				+ '}';
 	}
 
 	public ArrayList<Position> getPositionsAsArrayList() {
-		return positionsAsArrayList;
+		return this.positionsAsArrayList;
 	}
 
 	public Set<Position> getPositions() {
-		return positions;
+		return this.positions;
 	}
 }

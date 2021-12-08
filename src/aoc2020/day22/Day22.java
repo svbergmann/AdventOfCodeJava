@@ -137,6 +137,6 @@ public class Day22 extends Day {
 				new Game(1, playerOneList, playerTwoList);
 	}
 
-	private static record Game(int numWinner, List<Integer> winnerList, List<Integer> loserList) {
+	private record Game(int numWinner, List<Integer> winnerList, List<Integer> loserList) {
 	}
 }

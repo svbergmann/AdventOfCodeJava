@@ -224,7 +224,7 @@ public class Day17 extends Day {
 		this.cubes4D.putAll(tmpCubes);
 	}
 
-	private static record Coordinate3D(int x, int y, int z) {
+	private record Coordinate3D(int x, int y, int z) {
 		public Coordinate3D(@NotNull Coordinate3D coordinate3D) {
 			this(coordinate3D.x, coordinate3D.y, coordinate3D.z);
 		}
@@ -255,7 +255,7 @@ public class Day17 extends Day {
 		}
 	}
 
-	private static record Coordinate4D(int x, int y, int z, int w) {
+	private record Coordinate4D(int x, int y, int z, int w) {
 		public Coordinate4D(@NotNull Coordinate4D coordinate4D) {
 			this(coordinate4D.x, coordinate4D.y, coordinate4D.z, coordinate4D.w);
 		}
