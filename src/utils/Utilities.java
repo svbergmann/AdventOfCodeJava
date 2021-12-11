@@ -6,6 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class Utilities {
@@ -76,6 +78,56 @@ public class Utilities {
 		@Override
 		public String toString() {
 			return "(" + this.key + ", " + this.value + ")";
+		}
+	}
+
+	private record Point(int x, int y) implements Comparable<Point> {
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || this.getClass() != o.getClass()) return false;
+			Point point = (Point) o;
+			return this.x == point.x && this.y == point.y;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(this.x, this.y);
+		}
+
+		@Override
+		public int compareTo(@NotNull Point o) {
+			return (this.x - o.x == 0) ? this.y - o.y : this.x - o.x;
+		}
+
+		public @NotNull HashSet<Point> getAdjacentAndDiagonal(int heightOfMap, int lengthOfMap) {
+			var res = new HashSet<Point>();
+			if (this.x + 1 < heightOfMap) {
+				res.add(new Point(this.x + 1, this.y));
+				if (this.y + 1 < lengthOfMap) res.add(new Point(this.x + 1, this.y + 1));
+			}
+			if (this.x - 1 >= 0) {
+				res.add(new Point(this.x - 1, this.y));
+				if (this.y - 1 >= 0) res.add(new Point(this.x - 1, this.y - 1));
+			}
+			if (this.y + 1 < lengthOfMap) {
+				res.add(new Point(this.x, this.y + 1));
+				if (this.x - 1 >= 0) res.add(new Point(this.x - 1, this.y + 1));
+			}
+			if (this.y - 1 >= 0) {
+				res.add(new Point(this.x, this.y - 1));
+				if (this.x + 1 < heightOfMap) res.add(new Point(this.x + 1, this.y - 1));
+			}
+			return res;
+		}
+
+		public @NotNull HashSet<Point> getAdjacent(int heightOfMap, int lengthOfMap) {
+			var res = new HashSet<Point>();
+			if (this.x + 1 < heightOfMap) res.add(new Point(this.x + 1, this.y));
+			if (this.x - 1 >= 0) res.add(new Point(this.x - 1, this.y));
+			if (this.y + 1 < lengthOfMap) res.add(new Point(this.x, this.y + 1));
+			if (this.y - 1 >= 0) res.add(new Point(this.x, this.y - 1));
+			return res;
 		}
 	}
 }
