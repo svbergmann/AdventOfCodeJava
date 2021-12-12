@@ -1,6 +1,6 @@
 package aoc2021;
 
-import aoc2021.day11.Day11;
+import aoc2021.day12.Day12;
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
 import utils.Utilities;
@@ -8,7 +8,7 @@ import utils.Utilities;
 public class Main {
 
 	public static void main(String[] args) {
-		printResults(new Day11());
+		printResults(new Day12());
 	}
 
 	public static void printResults(@NotNull Day day) {
