@@ -4,13 +4,17 @@ import utils.Day;
 
 public class Day11 extends Day {
 
-	private final Octupus[][] octopi;
+	private Octupus[][] octopi;
 
 	public Day11() {
 		super(2021, 11);
-		this.octopi = new Octupus[10][10];
+	}
+
+	private void init(boolean example) {
+		this.octopi = new Octupus[example ? this.example.size() : this.input.size()]
+				[example ? this.example.get(0).toCharArray().length : this.input.get(0).toCharArray().length];
 		for (var i = 0; i < 10; i++) {
-			var line = this.example.get(i);
+			var line = example ? this.example.get(i) : this.input.get(i);
 			var j = 0;
 			for (var c : line.toCharArray()) {
 				this.octopi[i][j] = new Octupus(Integer.parseInt(String.valueOf(c)), false);
@@ -21,19 +25,18 @@ public class Day11 extends Day {
 
 	@Override
 	public String resultPartOne() {
+		this.init(false);
 		var res = 0L;
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 100; i++) {
 			res += this.doStep();
-			var step = i + 1;
-			System.out.println("After step " + step + ":");
-			for (Octupus[] octopus : this.octopi) {
-				for (var j = 0; j < this.octopi[i].length; j++) {
-					System.out.print(octopus[j].value == 0 ? "o" : octopus[j]);
-				}
-				System.out.println();
-			}
-			System.out.println();
-			System.out.println(res);
+//			var step = i + 1;
+//			System.out.println("After step " + step + ":");
+//			for (Octupus[] octopus : this.octopi) {
+//				for (var j = 0; j < this.octopi[0].length; j++) {
+//					System.out.print(octopus[j].value == 0 ? "o" : octopus[j]);
+//				}
+//				System.out.println();
+//			}
 		}
 		return res + "";
 	}
@@ -44,24 +47,28 @@ public class Day11 extends Day {
 				octupus.value++;
 			}
 		}
-		var totalFlashes = 0L;
 		for (var i = 0; i < this.octopi.length; i++) {
 			for (var j = 0; j < this.octopi[i].length; j++) {
-				totalFlashes += this.flash(i, j, 0, false);
+				this.flash(i, j, 0, false);
 			}
 		}
+		var totalFlashes = 0L;
 		for (Octupus[] octupuses : this.octopi) {
 			for (Octupus octupus : octupuses) {
-				octupus.flashed = false;
+				if (octupus.flashed) {
+					octupus.flashed = false;
+					octupus.value = 0;
+					totalFlashes++;
+				}
 			}
 		}
 		return totalFlashes;
 	}
 
-	private int flash(int x, int y, int totalFlashes, boolean flashed) {
+	private void flash(int x, int y, int totalFlashes, boolean flashed) {
 		var octupus = this.octopi[x][y];
 		if (flashed) octupus.value++;
-		if (octupus.flashed) return totalFlashes;
+		if (octupus.flashed) return;
 		if (octupus.value > 9) {
 			octupus.value = 0;
 			octupus.flashed = true;
@@ -82,14 +89,20 @@ public class Day11 extends Day {
 				this.flash(x, y - 1, totalFlashes, true);
 				if (x + 1 < this.octopi.length) this.flash(x + 1, y - 1, totalFlashes, true);
 			}
-			return totalFlashes;
 		}
-		return totalFlashes;
 	}
 
 	@Override
 	public String resultPartTwo() {
-		return null;
+		this.init(false);
+		var amountOfOctopi = this.octopi.length * this.octopi[0].length;
+		var step = 0;
+		var value = 0L;
+		do {
+			value = this.doStep();
+			step++;
+		} while (value != amountOfOctopi);
+		return step + "";
 	}
 
 	private static class Octupus {
