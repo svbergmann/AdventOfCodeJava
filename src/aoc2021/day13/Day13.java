@@ -48,8 +48,6 @@ public class Day13 extends Day {
     }
 
     private void executeInstructions(boolean all, int number) {
-        System.out.println(Utilities.getTwoDimArrayString(this.markedPoints));
-        System.out.println();
         var howMany = (all) ? this.instructionList.size() : number;
         for (int i = 0; i < howMany; i++) {
             var instruction = this.instructionList.get(i);
@@ -61,7 +59,7 @@ public class Day13 extends Day {
                 for (var y = this.markedPoints.length - 1; y > instruction.getValue(); y--) {
                     for (var x = 0; x < this.markedPoints[0].length; x++) {
                         if (this.markedPoints[y][x]) {
-                            foldedPaper[this.markedPoints.length - 1 - y][x] = true;
+                            foldedPaper[instruction.getValue() - Math.abs(instruction.getValue() - y)][x] = true;
                         }
                     }
                 }
@@ -74,14 +72,12 @@ public class Day13 extends Day {
                 for (var y = 0; y < this.markedPoints.length; y++) {
                     for (var x = this.markedPoints[0].length - 1; x > instruction.getValue(); x--) {
                         if (this.markedPoints[y][x]) {
-                            foldedPaper[y][this.markedPoints[0].length - 1 - x] = true;
+                            foldedPaper[y][instruction.getValue() - Math.abs(instruction.getValue() - x)] = true;
                         }
                     }
                 }
                 this.markedPoints = foldedPaper;
             }
-            System.out.println(Utilities.getTwoDimArrayString(this.markedPoints));
-            System.out.println();
         }
     }
 
@@ -100,6 +96,8 @@ public class Day13 extends Day {
 
     @Override
     public String resultPartTwo() {
-        return null;
+        this.init(false);
+        this.executeInstructions(true, 1);
+        return "\n" + Utilities.getTwoDimArrayString(this.markedPoints);
     }
 }
