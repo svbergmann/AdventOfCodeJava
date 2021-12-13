@@ -13,6 +13,7 @@ public class Day12 extends Day {
 
 	private final HashSet<Cave> caves;
 	private HashSet<ArrayList<Cave>> paths;
+	private Cave startCave = null;
 
 	public Day12() {
 		super(2021, 12);
@@ -43,16 +44,22 @@ public class Day12 extends Day {
 				this.caves.add(cave2);
 			}
 			cave1.addConnection(cave2);
+			cave2.addConnection(cave1);
+		}
+		this.startCave = null;
+		for (var cave : this.caves) {
+			if (cave.name.equals("start")) {
+				this.startCave = cave;
+				break;
+			}
 		}
 	}
 
 	@Override
 	public String resultPartOne() {
-		Cave startCave = null;
-		for (var cave : this.caves) if (cave.name.equals("start")) startCave = cave;
 		this.paths = new HashSet<>();
-		this.findAllPathsRek(startCave, new ArrayList<>(List.of(startCave)), this.paths);
-		return this.paths.toString();
+		this.findAllPathsRek(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths);
+		return this.paths.size() + "";
 	}
 
 	private void findAllPathsRek(Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket) {
@@ -61,16 +68,39 @@ public class Day12 extends Day {
 			return;
 		}
 		for (var nextCave : cave.connections) {
-			if (path.contains(nextCave) && !nextCave.bigCave) continue;
+			if (!nextCave.bigCave && path.contains(nextCave)) continue;
 			var copy = new ArrayList<>(path);
 			copy.add(nextCave);
 			this.findAllPathsRek(nextCave, copy, bucket);
 		}
 	}
 
+	private void findAllPathsRekPart2(Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket) {
+		if (cave.name.equals("end")) {
+			bucket.add(path);
+			return;
+		}
+		for (var nextCave : cave.connections) {
+			if (!nextCave.bigCave) {
+				var howMany = 0;
+				for (var c : path) {
+					if (c.name.equals(nextCave.name)) {
+						howMany++;
+					}
+				}
+				if (howMany >= 2) continue;
+			}
+			var copy = new ArrayList<>(path);
+			copy.add(nextCave);
+			this.findAllPathsRekPart2(nextCave, copy, bucket);
+		}
+	}
+
 	@Override
 	public String resultPartTwo() {
-		return null;
+		this.paths = new HashSet<>();
+		this.findAllPathsRekPart2(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths);
+		return this.paths.size() + "";
 	}
 
 	private static class Cave {
