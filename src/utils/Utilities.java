@@ -5,10 +5,9 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Utilities {
 
@@ -60,6 +59,13 @@ public class Utilities {
 			res.append("\n");
 		}
 		return res.toString();
+	}
+
+	public static <T> Set<T> findDuplicates(@NotNull Collection<T> collection) {
+		var uniques = new HashSet<T>();
+		return collection.stream()
+				.filter(t -> !uniques.add(t))
+				.collect(Collectors.toCollection(HashSet::new));
 	}
 
 	public static class Pair<K, V> {

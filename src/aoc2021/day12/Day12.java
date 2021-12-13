@@ -18,7 +18,7 @@ public class Day12 extends Day {
 	public Day12() {
 		super(2021, 12);
 		this.caves = new HashSet<>();
-		for (var s : this.example) {
+		for (var s : this.input) {
 			var s1 = s.split("-");
 			Cave cave1 = null;
 			Cave cave2 = null;
@@ -62,7 +62,7 @@ public class Day12 extends Day {
 		return this.paths.size() + "";
 	}
 
-	private void findAllPathsRek(Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket) {
+	private void findAllPathsRek(@NotNull Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket) {
 		if (cave.name.equals("end")) {
 			bucket.add(path);
 			return;
@@ -75,31 +75,32 @@ public class Day12 extends Day {
 		}
 	}
 
-	private void findAllPathsRekPart2(Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket) {
+	private void findAllPathsRekPart2(@NotNull Cave cave, ArrayList<Cave> path, HashSet<ArrayList<Cave>> bucket, boolean duplicatedCave) {
 		if (cave.name.equals("end")) {
 			bucket.add(path);
 			return;
 		}
 		for (var nextCave : cave.connections) {
+			var changed = false;
+			if (nextCave.name.equals("start")) continue;
 			if (!nextCave.bigCave) {
-				var howMany = 0;
-				for (var c : path) {
-					if (c.name.equals(nextCave.name)) {
-						howMany++;
-					}
+				if (path.contains(nextCave)) {
+					if (duplicatedCave) continue;
+					duplicatedCave = true;
+					changed = true;
 				}
-				if (howMany >= 2) continue;
 			}
 			var copy = new ArrayList<>(path);
 			copy.add(nextCave);
-			this.findAllPathsRekPart2(nextCave, copy, bucket);
+			this.findAllPathsRekPart2(nextCave, copy, bucket, duplicatedCave);
+			if (changed) duplicatedCave = false;
 		}
 	}
 
 	@Override
 	public String resultPartTwo() {
 		this.paths = new HashSet<>();
-		this.findAllPathsRekPart2(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths);
+		this.findAllPathsRekPart2(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths, false);
 		return this.paths.size() + "";
 	}
 
@@ -113,15 +114,11 @@ public class Day12 extends Day {
 			this.name = name;
 			this.connections = new HashSet<>();
 			this.visited = false;
-			this.bigCave = Character.isUpperCase(name.toCharArray()[0]);
+			this.bigCave = Character.isUpperCase(name.charAt(0));
 		}
 
 		public void addConnection(Cave cave) {
 			this.connections.add(cave);
-		}
-
-		public boolean canMove(Cave cave) {
-			return this.connections.contains(cave);
 		}
 
 		@Override
@@ -141,5 +138,6 @@ public class Day12 extends Day {
 		public String toString() {
 			return this.name;
 		}
+
 	}
 }
