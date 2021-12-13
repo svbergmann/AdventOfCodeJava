@@ -41,9 +41,21 @@ public class Utilities {
 	public static @NotNull String getTwoDimArrayString(int[][] twoDimArray) {
 		if (twoDimArray == null) return "";
 		StringBuilder res = new StringBuilder();
-		for (int[] ints : twoDimArray) {
-			for (int anInt : ints) {
+		for (var ints : twoDimArray) {
+			for (var anInt : ints) {
 				res.append((anInt == 0) ? "." : anInt);
+			}
+			res.append("\n");
+		}
+		return res.toString();
+	}
+
+	public static @NotNull String getTwoDimArrayString(boolean[][] twoDimArray) {
+		if (twoDimArray == null) return "";
+		StringBuilder res = new StringBuilder();
+		for (var bools : twoDimArray) {
+			for (var aBool : bools) {
+				res.append((aBool) ? "#" : ".");
 			}
 			res.append("\n");
 		}
