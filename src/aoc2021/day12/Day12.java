@@ -3,83 +3,134 @@ package aoc2021.day12;
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
+
 
 public class Day12 extends Day {
 
-	private final HashSet<Cave> caves;
+    private final HashSet<Cave> caves;
 
-	public Day12() {
-		super(2021, 12);
-		this.caves = new HashSet<>();
-		for (var s : this.example) {
-			var s1 = s.split("-");
-			Cave cave1;
-			Cave cave2;
-			boolean cave1Added = false;
-			boolean cave2Added = false;
-			for (var cave : this.caves) {
-				if (cave.name.equals(s1[0])) {
-					cave1 = cave;
-					continue;
-				}
-				if (cave.name.equals(s1[1])) {
-					cave2 = cave;
-				}
-			}
-			if (!cave1Added) {
-				var cave = new Cave(s1[0]);
-				cave.addConnection(new Cave(s1[1]));
-				this.caves.add(cave);
-			}
-			if (!cave2Added) {
-				var cave = new Cave(s1[1]);
-				cave.addConnection(new Cave(s1[0]));
-				this.caves.add(cave);
-			}
-		}
-	}
+    public Day12() {
+        super(2021, 12);
+        this.caves = new HashSet<>();
+        for (var s : this.example) {
+            var s1 = s.split("-");
+            Cave cave1 = null;
+            Cave cave2 = null;
+            for (var cave : this.caves) {
+                if (cave.name.equals(s1[0])) {
+                    cave1 = cave;
+                    continue;
+                }
+                if (cave.name.equals(s1[1])) {
+                    cave2 = cave;
+                }
+            }
+            if (cave1 != null) {
+                if (cave2 == null) cave2 = new Cave(s1[1]);
+                this.caves.add(cave2);
+            } else if (cave2 != null) {
+                cave1 = new Cave(s1[0]);
+                this.caves.add(cave1);
+            } else {
+                cave1 = new Cave(s1[0]);
+                this.caves.add(cave1);
+                cave2 = new Cave(s1[1]);
+                this.caves.add(cave2);
+            }
+            cave1.addConnection(cave2);
+        }
+    }
 
-	@Override
-	public String resultPartOne() {
+    @Override
+    public String resultPartOne() {
+        Cave startCave = null;
+        for (var cave : this.caves) {
+            if (cave.name.equals("start")) startCave = cave;
+        }
+        var res = this.getAllPaths(startCave);
 
-		return null;
-	}
+        return res.toString();
+    }
 
-	@Override
-	public String resultPartTwo() {
-		return null;
-	}
+    private HashSet<ArrayList<Cave>> getAllPaths(Cave root) {
+        var st = new Stack<Cave>();
+        var res = new HashSet<ArrayList<Cave>>();
+        st.push(root);
 
-	private static class Cave {
-		String name;
-		HashSet<Cave> connections;
-		boolean visited;
-		boolean bigCave;
+        while (!st.isEmpty()) {
+            var top = st.peek();
+            if (top.connections.isEmpty() || top.visited) {
+                st.pop();
+            } else {
+                for (var connection : top.connections) {
+                    if (connection != null) {
+                        if (connection.name.equals("end")) {
+                            st.push(connection);
+                            var tmpList = new ArrayList<>(st);
+                            res.add(tmpList);
+                            st.pop();
+                            System.out.println(tmpList);
+                            break;
+                        } else if (!connection.visited) {
+                            st.push(connection);
+                            if (!connection.bigCave) connection.visited = true;
+                            break;
+                        } else {
+                            st.push(connection);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
 
-		public Cave(@NotNull String name) {
-			this.name = name;
-			this.connections = new HashSet<>();
-			this.visited = false;
-			this.bigCave = Character.isUpperCase(name.toCharArray()[0]);
-		}
+    @Override
+    public String resultPartTwo() {
+        return null;
+    }
 
-		public void addConnection(Cave cave) {
-			this.connections.add(cave);
-		}
+    private static class Cave {
+        private final HashSet<Cave> connections;
+        String name;
+        boolean visited;
+        boolean bigCave;
 
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || this.getClass() != o.getClass()) return false;
-			Cave cave = (Cave) o;
-			return Objects.equals(this.name, cave.name);
-		}
+        public Cave(@NotNull String name) {
+            this.name = name;
+            this.connections = new HashSet<>();
+            this.visited = false;
+            this.bigCave = Character.isUpperCase(name.toCharArray()[0]);
+        }
 
-		@Override
-		public int hashCode() {
-			return Objects.hash(this.name);
-		}
-	}
+        public void addConnection(Cave cave) {
+            this.connections.add(cave);
+        }
+
+        public boolean canMove(Cave cave) {
+            return this.connections.contains(cave);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || this.getClass() != o.getClass()) return false;
+            Cave cave = (Cave) o;
+            return Objects.equals(this.name, cave.name);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.name);
+        }
+
+        @Override
+        public String toString() {
+            return "Cave{" +
+                    "name='" + name + '\'' +
+                    '}';
+        }
+    }
 }
