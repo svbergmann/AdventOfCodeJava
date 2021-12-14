@@ -67,23 +67,21 @@ public class Day14 extends Day {
 	private long getResult(boolean example, int steps) {
 		this.init(example);
 		var res = this.getResultingPolymer(steps);
-		var chars = res.chars()
-		               .distinct()
-		               .sorted()
-		               .mapToObj(i -> (char) i)
-		               .toList();
-		var amounts = chars.stream()
-		                   .map(c -> res.chars().filter(c1 -> c1 == c).count())
-		                   .collect(Collectors.toCollection(HashSet::new));
+		var amounts = res.chars()
+		                 .distinct()
+		                 .sorted()
+		                 .mapToObj(i -> (char) i)
+		                 .map(c -> res.chars().filter(c1 -> c1 == c).count())
+		                 .collect(Collectors.toCollection(HashSet::new));
 		return amounts.stream().max(Long::compareTo).get() - amounts.stream().min(Long::compareTo).get();
 	}
 
 	private @NotNull HashMap<String, Long> getResultingMap(boolean example, int steps) {
 		this.init(example);
 		var resultingPairsMap = new HashMap<String, Long>();
-		for (var i = 0; i < Day14.this.polymerTemplate.length() - 1; i++) {
-			var key = "" + Day14.this.polymerTemplate.charAt(i) + Day14.this.polymerTemplate.charAt(i + 1);
-			resultingPairsMap.put(key, 0L);
+		for (var i = 0; i < this.polymerTemplate.length() - 1; i++) {
+			var key = "" + this.polymerTemplate.charAt(i) + this.polymerTemplate.charAt(i + 1);
+			resultingPairsMap.merge(key, 1L, Long::sum);
 		}
 		for (var i = 0; i < steps; i++) {
 			var tmpMap = new HashMap<String, Long>();

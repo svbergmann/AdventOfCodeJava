@@ -13,7 +13,13 @@ public class Main {
 
 	public static void printResults(@NotNull Day day) {
 		System.out.println("Result of day " + day.number + ":");
-		System.out.println(Utilities.PART_ONE + day.resultPartOne());
-		System.out.println(Utilities.PART_TWO + day.resultPartTwo());
+		var time = System.currentTimeMillis();
+		var result = day.resultPartOne();
+		var diff = System.currentTimeMillis() - time;
+		System.out.println(Utilities.PART_ONE + result + " in " + diff + " milliseconds.");
+		time = System.currentTimeMillis();
+		result = day.resultPartTwo();
+		diff = System.currentTimeMillis() - time;
+		System.out.println(Utilities.PART_TWO + result + " in " + diff + " milliseconds.");
 	}
 }
