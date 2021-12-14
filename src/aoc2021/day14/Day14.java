@@ -7,6 +7,7 @@ import utils.Utilities;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -20,29 +21,6 @@ public class Day14 extends Day {
 		super(2021, 14);
 	}
 
-	private @NotNull HashMap<String, Integer> getResultingMap(boolean example, int steps) {
-		this.init(example);
-		var resultingPairsMap = new HashMap<String, Integer>();
-		for (var i = 0; i < Day14.this.polymerTemplate.length() - 1; i++) {
-			var key = "" + Day14.this.polymerTemplate.charAt(i) + Day14.this.polymerTemplate.charAt(i + 1);
-			resultingPairsMap.put(key, 0);
-		}
-		for (var i = 0; i < steps; i++) {
-			var tmpMap = new HashMap<String, Integer>();
-			for (var pair : this.rules) {
-				if (resultingPairsMap.containsKey(pair.getKey())) {
-					var firstKey = pair.getKey().charAt(0) + pair.getValue() + "";
-					tmpMap.merge(firstKey, 1, (ov, nv) -> ov * 2);
-					var secondKey = pair.getValue() + pair.getKey().charAt(1) + "";
-					tmpMap.merge(secondKey, 1, (ov, nv) -> ov * 2);
-				}
-			}
-			resultingPairsMap.putAll(tmpMap);
-			System.out.println("After step " + i + ":" + resultingPairsMap);
-		}
-		return resultingPairsMap;
-	}
-
 	private void init(boolean example) {
 		var list = example ? this.example : this.input;
 		this.polymerTemplate = list.get(0);
@@ -51,6 +29,18 @@ public class Day14 extends Day {
 			var line = list.get(i).split("->");
 			this.rules.add(new Utilities.Pair<>(line[0].trim(), line[1].trim()));
 		}
+	}
+
+	@Override
+	public String resultPartOne() {
+		return this.getResult(false, 10) + "";
+	}
+
+	@Override
+	public String resultPartTwo() {
+		var amounts = this.getAmount(this.getResultingMap(false, 40));
+		return amounts.stream().mapToLong(Map.Entry::getValue).max().getAsLong() -
+				amounts.stream().mapToLong(Map.Entry::getValue).min().getAsLong() + "";
 	}
 
 	private @NotNull String getResultingPolymer(int steps) {
@@ -74,14 +64,43 @@ public class Day14 extends Day {
 		return tmpStringBuilder.toString();
 	}
 
-	@Override
-	public String resultPartOne() {
-		return this.getResult(false, 10) + "";
+	private long getResult(boolean example, int steps) {
+		this.init(example);
+		var res = this.getResultingPolymer(steps);
+		var chars = res.chars()
+		               .distinct()
+		               .sorted()
+		               .mapToObj(i -> (char) i)
+		               .toList();
+		var amounts = chars.stream()
+		                   .map(c -> res.chars().filter(c1 -> c1 == c).count())
+		                   .collect(Collectors.toCollection(HashSet::new));
+		return amounts.stream().max(Long::compareTo).get() - amounts.stream().min(Long::compareTo).get();
 	}
 
-	@Override
-	public String resultPartTwo() {
-		var map = this.getResultingMap(true, 10);
+	private @NotNull HashMap<String, Long> getResultingMap(boolean example, int steps) {
+		this.init(example);
+		var resultingPairsMap = new HashMap<String, Long>();
+		for (var i = 0; i < Day14.this.polymerTemplate.length() - 1; i++) {
+			var key = "" + Day14.this.polymerTemplate.charAt(i) + Day14.this.polymerTemplate.charAt(i + 1);
+			resultingPairsMap.put(key, 0L);
+		}
+		for (var i = 0; i < steps; i++) {
+			var tmpMap = new HashMap<String, Long>();
+			for (var pair : this.rules) {
+				if (resultingPairsMap.containsKey(pair.getKey())) {
+					var valueOfKey = resultingPairsMap.get(pair.getKey()) == 0 ? 1 : resultingPairsMap.get(pair.getKey());
+					tmpMap.merge(pair.getKey().charAt(0) + pair.getValue() + "", valueOfKey, Long::sum);
+					tmpMap.merge(pair.getValue() + pair.getKey().charAt(1) + "", valueOfKey, Long::sum);
+				}
+			}
+			resultingPairsMap.clear();
+			resultingPairsMap.putAll(tmpMap);
+		}
+		return resultingPairsMap;
+	}
+
+	private List<Map.Entry<Character, Long>> getAmount(@NotNull HashMap<String, Long> map) {
 		var chars = new HashSet<Character>();
 		for (var s : map.keySet()) {
 			for (var c : s.toCharArray()) {
@@ -95,31 +114,15 @@ public class Day14 extends Day {
 			              .filter(stringIntegerEntry -> stringIntegerEntry.getKey().charAt(0) == c)
 			              .toList();
 			for (var entry : list) {
-				amounts.merge(entry.getKey().charAt(0), Long.valueOf(entry.getValue()), Long::sum);
+				amounts.merge(entry.getKey().charAt(0), entry.getValue(), Long::sum);
 			}
 			if (c == this.polymerTemplate.charAt(this.polymerTemplate.length() - 1)) {
 				amounts.merge(c, 1L, Long::sum);
 			}
 		}
-		System.out.println(amounts.entrySet()
-		                          .stream()
-		                          .sorted(Comparator.comparingLong(Map.Entry::getValue))
-		                          .collect(Collectors.toList())
-		);
-		return amounts.values().stream().max(Long::compareTo).get() - amounts.values().stream().min(Long::compareTo).get() + "";
-	}
-
-	private long getResult(boolean example, int steps) {
-		this.init(example);
-		var res = this.getResultingPolymer(steps);
-		var chars = res.chars()
-		               .distinct()
-		               .sorted()
-		               .mapToObj(i -> (char) i)
-		               .toList();
-		var amounts = chars.stream()
-		                   .map(c -> res.chars().filter(c1 -> c1 == c).count())
-		                   .collect(Collectors.toCollection(HashSet::new));
-		return amounts.stream().max(Long::compareTo).get() - amounts.stream().min(Long::compareTo).get();
+		return amounts.entrySet()
+		              .stream()
+		              .sorted(Comparator.comparingLong(Map.Entry::getValue))
+		              .collect(Collectors.toList());
 	}
 }
