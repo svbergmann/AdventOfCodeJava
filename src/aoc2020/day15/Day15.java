@@ -20,10 +20,11 @@ public class Day15 extends Day {
 
 	private void init() {
 		this.spokenNumbers =
-				Arrays.stream(this.input.get(0).split(","))
-						.mapToInt(Integer::parseInt)
-						.boxed()
-						.collect(Collectors.toList());
+				Arrays.stream(this.input.get(0)
+				                        .split(","))
+				      .mapToInt(Integer::parseInt)
+				      .boxed()
+				      .collect(Collectors.toList());
 		this.lengthOfStartingNumbers = this.spokenNumbers.size();
 
 		this.integerArrayListHashMap = new HashMap<>();
@@ -31,7 +32,8 @@ public class Day15 extends Day {
 			if (!this.integerArrayListHashMap.containsKey(this.spokenNumbers.get(i))) {
 				this.integerArrayListHashMap.put(this.spokenNumbers.get(i), new ArrayList<>());
 			}
-			this.integerArrayListHashMap.get(this.spokenNumbers.get(i)).add(i);
+			this.integerArrayListHashMap.get(this.spokenNumbers.get(i))
+			                            .add(i);
 		}
 		this.lastSpokenNumber = this.spokenNumbers.get(this.spokenNumbers.size() - 1);
 	}
@@ -55,11 +57,13 @@ public class Day15 extends Day {
 	}
 
 	private void playImproved(int i) {
-		if (this.integerArrayListHashMap.get(this.lastSpokenNumber).size() <= 1) {
+		if (this.integerArrayListHashMap.get(this.lastSpokenNumber)
+		                                .size() <= 1) {
 			if (!this.integerArrayListHashMap.containsKey(0)) {
 				this.integerArrayListHashMap.put(0, new ArrayList<>());
 			}
-			this.integerArrayListHashMap.get(0).add(i);
+			this.integerArrayListHashMap.get(0)
+			                            .add(i);
 			this.lastSpokenNumber = 0;
 		} else {
 			ArrayList<Integer> tmp = this.integerArrayListHashMap.get(this.lastSpokenNumber);
@@ -67,17 +71,20 @@ public class Day15 extends Day {
 			if (!this.integerArrayListHashMap.containsKey(this.lastSpokenNumber)) {
 				this.integerArrayListHashMap.put(this.lastSpokenNumber, new ArrayList<>());
 			}
-			this.integerArrayListHashMap.get(this.lastSpokenNumber).add(i);
+			this.integerArrayListHashMap.get(this.lastSpokenNumber)
+			                            .add(i);
 		}
 	}
 
 	private void play(int i) {
 		int tmp = this.spokenNumbers.get(i - 1);
-		if (!this.spokenNumbers.subList(0, i - 1).contains(tmp)) {
+		if (!this.spokenNumbers.subList(0, i - 1)
+		                       .contains(tmp)) {
 			this.spokenNumbers.add(0);
 		} else {
 			int lastIndex = this.spokenNumbers.lastIndexOf(tmp);
-			this.spokenNumbers.add(lastIndex - this.spokenNumbers.subList(0, lastIndex).lastIndexOf(tmp));
+			this.spokenNumbers.add(lastIndex - this.spokenNumbers.subList(0, lastIndex)
+			                                                     .lastIndexOf(tmp));
 		}
 	}
 }

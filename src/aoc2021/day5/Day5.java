@@ -20,10 +20,10 @@ public class Day5 extends Day {
 	@Override
 	public String resultPartOne() {
 		return Arrays.stream(this.system)
-				.mapToInt(i -> (int) Arrays.stream(i)
-						.filter(j -> j >= 2)
-						.count())
-				.sum()
+		             .mapToInt(i -> (int) Arrays.stream(i)
+		                                        .filter(j -> j >= 2)
+		                                        .count())
+		             .sum()
 				+ "";
 	}
 
@@ -31,10 +31,10 @@ public class Day5 extends Day {
 	public String resultPartTwo() {
 		this.setDiagonalLines(false);
 		return Arrays.stream(this.system)
-				.mapToInt(i -> (int) Arrays.stream(i)
-						.filter(j -> j >= 2)
-						.count())
-				.sum()
+		             .mapToInt(i -> (int) Arrays.stream(i)
+		                                        .filter(j -> j >= 2)
+		                                        .count())
+		             .sum()
 				+ "";
 	}
 
@@ -42,20 +42,22 @@ public class Day5 extends Day {
 		HashSet<Integer> setOfNumbers;
 		if (example) {
 			setOfNumbers = this.example.stream()
-					.flatMap(s -> Arrays.stream(s.split(" -> ")))
-					.flatMap(i -> Arrays.stream(i.split(",")))
-					.map(Integer::parseInt)
-					.collect(Collectors.toCollection(HashSet::new)
-					);
+			                           .flatMap(s -> Arrays.stream(s.split(" -> ")))
+			                           .flatMap(i -> Arrays.stream(i.split(",")))
+			                           .map(Integer::parseInt)
+			                           .collect(Collectors.toCollection(HashSet::new)
+			                           );
 		} else {
 			setOfNumbers = this.input.stream()
-					.flatMap(s -> Arrays.stream(s.split(" -> ")))
-					.flatMap(i -> Arrays.stream(i.split(",")))
-					.map(Integer::parseInt)
-					.collect(Collectors.toCollection(HashSet::new)
-					);
+			                         .flatMap(s -> Arrays.stream(s.split(" -> ")))
+			                         .flatMap(i -> Arrays.stream(i.split(",")))
+			                         .map(Integer::parseInt)
+			                         .collect(Collectors.toCollection(HashSet::new)
+			                         );
 		}
-		return setOfNumbers.stream().max(Integer::compareTo).get();
+		return setOfNumbers.stream()
+		                   .max(Integer::compareTo)
+		                   .get();
 	}
 
 	private void setHorizontalLines(boolean example) {

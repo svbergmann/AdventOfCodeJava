@@ -44,7 +44,10 @@ public class Day17 extends Day {
 				this.printCubes3D();
 			}
 		}
-		return String.valueOf(this.cubes3D.values().stream().filter(aBoolean -> aBoolean).count());
+		return String.valueOf(this.cubes3D.values()
+		                                  .stream()
+		                                  .filter(aBoolean -> aBoolean)
+		                                  .count());
 	}
 
 	private @NotNull String solve4D(boolean printCubes) {
@@ -62,15 +65,20 @@ public class Day17 extends Day {
 				this.printCubes4D();
 			}
 		}
-		return String.valueOf(this.cubes4D.values().stream().filter(aBoolean -> aBoolean).count());
+		return String.valueOf(this.cubes4D.values()
+		                                  .stream()
+		                                  .filter(aBoolean -> aBoolean)
+		                                  .count());
 	}
 
 	private void initCubes3D(@NotNull List<String> input) {
-		this.yMax = input.get(0).length();
+		this.yMax = input.get(0)
+		                 .length();
 		this.zMax = 0;
 		this.cubes3D = new HashMap<>();
 		for (var x = 0; x < this.yMax; x++) {
-			var line = input.get(x).split("");
+			var line = input.get(x)
+			                .split("");
 			for (var y = 0; y < this.yMax; y++) {
 				var active = "#".equals(line[y]);
 				this.cubes3D.put(new Coordinate3D(x - this.yMax / 2, y - this.yMax / 2, 0), active);
@@ -79,12 +87,14 @@ public class Day17 extends Day {
 	}
 
 	private void initCubes4D(@NotNull List<String> input) {
-		this.yMax = input.get(0).length();
+		this.yMax = input.get(0)
+		                 .length();
 		this.zMax = 0;
 		this.wMax = 0;
 		this.cubes4D = new HashMap<>();
 		for (var x = 0; x < this.yMax; x++) {
-			var line = input.get(x).split("");
+			var line = input.get(x)
+			                .split("");
 			for (var y = 0; y < this.yMax; y++) {
 				var active = "#".equals(line[y]);
 				this.cubes4D.put(new Coordinate4D(x - this.yMax / 2, y - this.yMax / 2, 0, 0), active);

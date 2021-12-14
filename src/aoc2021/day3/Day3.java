@@ -17,7 +17,8 @@ public class Day3 extends Day {
 		var gammaRate = new StringBuilder();
 		var epsilonRate = new StringBuilder();
 		var significantBits = this.getSignificantBits(this.input);
-		for (var i = 0; i < this.input.get(1).length(); i++) {
+		for (var i = 0; i < this.input.get(1)
+		                              .length(); i++) {
 			if (significantBits[i] == '1') {
 				gammaRate.append("1");
 				epsilonRate.append("0");
@@ -45,7 +46,8 @@ public class Day3 extends Day {
 	 * @return a char array with the most common bit at each position or the value 2 if those are equal
 	 */
 	private char @NotNull [] getSignificantBits(@NotNull List<String> list) {
-		var lengthOfArray = list.get(1).length();
+		var lengthOfArray = list.get(1)
+		                        .length();
 		var numberOfOneBits = new int[lengthOfArray];
 		for (String s : list) {
 			for (var j = 0; j < lengthOfArray; j++) {
@@ -78,21 +80,30 @@ public class Day3 extends Day {
 				sameBit = mostCommonBit == '2';
 				for (var i = list.size() - 1; i >= 0; i--) {
 					if (mostSignificantBit) {
-						if (sameBit && list.get(i).charAt(j) != '1' || list.get(i).charAt(j) != mostCommonBit) {
+						if (sameBit && list.get(i)
+						                   .charAt(j) != '1' || list.get(i)
+						                                            .charAt(j) != mostCommonBit) {
 							list.remove(i);
 						}
-					} else if (sameBit && list.get(i).charAt(j) != '0' || list.get(i).charAt(j) == mostCommonBit) {
+					} else if (sameBit && list.get(i)
+					                          .charAt(j) != '0' || list.get(i)
+					                                                   .charAt(j) == mostCommonBit) {
 						list.remove(i);
 					}
 				}
 			} else if (list.size() == 2) {
-				if (list.get(0).equals(list.get(1))) {
+				if (list.get(0)
+				        .equals(list.get(1))) {
 					list.remove(1);
-				} else if (list.get(0).charAt(j) != list.get(1).charAt(j)) {
+				} else if (list.get(0)
+				               .charAt(j) != list.get(1)
+				                                 .charAt(j)) {
 					for (var i = list.size() - 1; i >= 0; i--) {
 						if (mostSignificantBit) {
-							if (list.get(i).charAt(j) != '1') list.remove(i);
-						} else if (list.get(i).charAt(j) == '1') list.remove(i);
+							if (list.get(i)
+							        .charAt(j) != '1') list.remove(i);
+						} else if (list.get(i)
+						               .charAt(j) == '1') list.remove(i);
 					}
 				}
 			}

@@ -29,7 +29,8 @@ public class Day4 extends Day {
 				splittedLines.add(new ArrayList<>());
 			}
 			for (String s : value.split("\\s")) {
-				splittedLines.get(splittedLinesCounter).add(s);
+				splittedLines.get(splittedLinesCounter)
+				             .add(s);
 			}
 		}
 		splittedLines.forEach(
@@ -43,19 +44,22 @@ public class Day4 extends Day {
 									try {
 										passport.byr = Integer.parseInt(value);
 									} catch (NumberFormatException e) {
-										Logger.getGlobal().severe("Cannot parse byr: " + value + " to int.");
+										Logger.getGlobal()
+										      .severe("Cannot parse byr: " + value + " to int.");
 									}
 								} else if (attribute.matches("iyr")) {
 									try {
 										passport.iyr = Integer.parseInt(value);
 									} catch (NumberFormatException e) {
-										Logger.getGlobal().severe("Cannot parse iyr: " + value + " to int.");
+										Logger.getGlobal()
+										      .severe("Cannot parse iyr: " + value + " to int.");
 									}
 								} else if (attribute.matches("eyr")) {
 									try {
 										passport.eyr = Integer.parseInt(value);
 									} catch (NumberFormatException e) {
-										Logger.getGlobal().severe("Cannot parse eyr: " + value + " to int.");
+										Logger.getGlobal()
+										      .severe("Cannot parse eyr: " + value + " to int.");
 									}
 								} else if (attribute.matches("hgt")) {
 									passport.hgt = value;
@@ -69,7 +73,8 @@ public class Day4 extends Day {
 									try {
 										passport.cid = Integer.parseInt(value);
 									} catch (NumberFormatException e) {
-										Logger.getGlobal().severe("Cannot parse cid: " + value + " to int.");
+										Logger.getGlobal()
+										      .severe("Cannot parse cid: " + value + " to int.");
 									}
 								}
 							});
@@ -188,7 +193,8 @@ public class Day4 extends Day {
 			static boolean matches(String text) {
 				boolean matches = false;
 				for (EyeColor eyeColor : values()) {
-					if (eyeColor.getText().equals(text)) {
+					if (eyeColor.getText()
+					            .equals(text)) {
 						matches = true;
 						break;
 					}

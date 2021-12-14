@@ -19,7 +19,8 @@ public class Day3 extends Day {
 		// Geology array, where true means a tree an false means a free space
 		this.geology = new boolean[this.sizeOfArray][this.sizeOfLines];
 		for (int i = 0; i < this.geology.length; i++) {
-			char[] tmp2 = arrayList.get(i).toCharArray();
+			char[] tmp2 = arrayList.get(i)
+			                       .toCharArray();
 			char[] tmp = new char[this.sizeOfLines];
 			int tmp2Counter = 0;
 			for (int k = 0; k < this.sizeOfLines; k++) {
@@ -49,7 +50,11 @@ public class Day3 extends Day {
 		BigInteger three = new BigInteger(this.numberOfTrees(1, 5) + "");
 		BigInteger four = new BigInteger(this.numberOfTrees(1, 7) + "");
 		BigInteger five = new BigInteger(this.numberOfTrees(2, 1) + "");
-		return one.multiply(two).multiply(three).multiply(four).multiply(five).toString();
+		return one.multiply(two)
+		          .multiply(three)
+		          .multiply(four)
+		          .multiply(five)
+		          .toString();
 	}
 
 	private int numberOfTrees(int down, int right) {

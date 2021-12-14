@@ -63,7 +63,9 @@ public class Day18 extends Day {
 	@Override
 	public String resultPartOne() {
 		var res = new AtomicLong();
-		this.input.stream().parallel().forEach(s -> res.addAndGet(evaluateLeftToRight(s)));
+		this.input.stream()
+		          .parallel()
+		          .forEach(s -> res.addAndGet(evaluateLeftToRight(s)));
 		return String.valueOf(res);
 	}
 

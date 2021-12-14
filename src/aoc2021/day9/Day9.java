@@ -3,7 +3,11 @@ package aoc2021.day9;
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
@@ -20,19 +24,21 @@ public class Day9 extends Day {
 
 	private static List<Point> getLowestPoints(@NotNull HashMap<Point, Integer> heatMap, int heightOfMap, int lengthOfMap) {
 		return heatMap.entrySet()
-				.stream()
-				.filter(pointIntegerEntry -> {
-					var lowest = new AtomicBoolean(true);
-					pointIntegerEntry.getKey().getAdjacent(heightOfMap, lengthOfMap)
-							.forEach(point -> {
-								if (heatMap.get(point) <= pointIntegerEntry.getValue()) {
-									lowest.set(false);
-								}
-							});
-					return lowest.get();
-				})
-				.map(pointIntegerEntry -> new Point(pointIntegerEntry.getKey().x(), pointIntegerEntry.getKey().y))
-				.collect(Collectors.toList());
+		              .stream()
+		              .filter(pointIntegerEntry -> {
+			              var lowest = new AtomicBoolean(true);
+			              pointIntegerEntry.getKey()
+			                               .getAdjacent(heightOfMap, lengthOfMap)
+			                               .forEach(point -> {
+				                               if (heatMap.get(point) <= pointIntegerEntry.getValue()) {
+					                               lowest.set(false);
+				                               }
+			                               });
+			              return lowest.get();
+		              })
+		              .map(pointIntegerEntry -> new Point(pointIntegerEntry.getKey()
+		                                                                   .x(), pointIntegerEntry.getKey().y))
+		              .collect(Collectors.toList());
 	}
 
 	public static @NotNull HashSet<HashSet<Point>> getBasins(HashMap<Point, Integer> heatMap, int heightOfMap, int lengthOfMap, int edgeValue) {
@@ -59,7 +65,9 @@ public class Day9 extends Day {
 
 	private void init(boolean example) {
 		this.heightOfMap = example ? this.example.size() : this.input.size();
-		this.lengthOfMap = example ? this.example.get(0).length() : this.input.get(0).length();
+		this.lengthOfMap = example ? this.example.get(0)
+		                                         .length() : this.input.get(0)
+		                                                               .length();
 		heatMap = new HashMap<>();
 		for (var i = 0; i < this.heightOfMap; i++) {
 			var line = example ? this.example.get(i) : this.input.get(i);
@@ -74,14 +82,21 @@ public class Day9 extends Day {
 	@Override
 	public String resultPartOne() {
 		return getLowestPoints(heatMap, this.heightOfMap, this.lengthOfMap).stream()
-				.mapToInt(point -> heatMap.get(point) + 1).sum() + "";
+		                                                                   .mapToInt(point -> heatMap.get(point) + 1)
+		                                                                   .sum() + "";
 	}
 
 	@Override
 	public String resultPartTwo() {
 		var list = getBasins(heatMap, this.heightOfMap, this.lengthOfMap, 9)
-				.stream().map(ArrayList::new).sorted(Comparator.comparingInt(ArrayList::size)).toList();
-		return list.get(list.size() - 3).size() * list.get(list.size() - 2).size() * list.get(list.size() - 1).size() + "";
+				.stream()
+				.map(ArrayList::new)
+				.sorted(Comparator.comparingInt(ArrayList::size))
+				.toList();
+		return list.get(list.size() - 3)
+		           .size() * list.get(list.size() - 2)
+		                         .size() * list.get(list.size() - 1)
+		                                       .size() + "";
 	}
 
 	private record Point(int x, int y) {

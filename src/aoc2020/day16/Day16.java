@@ -3,7 +3,11 @@ package aoc2020.day16;
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
 
-import java.util.*;
+import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Day16 extends Day {
@@ -15,18 +19,26 @@ public class Day16 extends Day {
 		super(2020, 16);
 		this.rules = new Rules();
 		for (int i = 0; ; i++) {
-			if (this.input.get(i).isEmpty()) {
+			if (this.input.get(i)
+			              .isEmpty()) {
 				break;
 			} else {
-				String[] splittedRule = this.input.get(i).split(":");
+				String[] splittedRule = this.input.get(i)
+				                                  .split(":");
 				int[] ruleNumbers = new int[4];
-				ruleNumbers[0] = Integer.parseInt(splittedRule[1].trim().split("-")[0]);
+				ruleNumbers[0] = Integer.parseInt(splittedRule[1].trim()
+				                                                 .split("-")[0]);
 				ruleNumbers[1] =
-						Integer.parseInt(splittedRule[1].trim().split("-")[1].split("or")[0].trim());
+						Integer.parseInt(splittedRule[1].trim()
+						                                .split("-")[1].split("or")[0].trim());
 				ruleNumbers[2] =
-						Integer.parseInt(splittedRule[1].trim().split("or")[1].trim().split("-")[0].trim());
+						Integer.parseInt(splittedRule[1].trim()
+						                                .split("or")[1].trim()
+						                                               .split("-")[0].trim());
 				ruleNumbers[3] =
-						Integer.parseInt(splittedRule[1].trim().split("or")[1].trim().split("-")[1].trim());
+						Integer.parseInt(splittedRule[1].trim()
+						                                .split("or")[1].trim()
+						                                               .split("-")[1].trim());
 				this.rules.addRule(new AbstractMap.SimpleEntry<>(splittedRule[0], ruleNumbers));
 			}
 		}
@@ -38,17 +50,17 @@ public class Day16 extends Day {
 	public String resultPartOne() {
 		AtomicInteger counter = new AtomicInteger();
 		this.nearbyTickets.stream()
-				.parallel()
-				.forEach(
-						s ->
-								Arrays.stream(s.split(","))
-										.parallel()
-										.forEach(
-												s1 -> {
-													if (!this.rules.isValidNumber(Integer.parseInt(s1))) {
-														counter.addAndGet(Integer.parseInt(s1));
-													}
-												}));
+		                  .parallel()
+		                  .forEach(
+				                  s ->
+						                  Arrays.stream(s.split(","))
+						                        .parallel()
+						                        .forEach(
+								                        s1 -> {
+									                        if (!this.rules.isValidNumber(Integer.parseInt(s1))) {
+										                        counter.addAndGet(Integer.parseInt(s1));
+									                        }
+								                        }));
 		return counter.toString();
 	}
 

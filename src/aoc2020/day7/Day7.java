@@ -21,19 +21,24 @@ public class Day7 extends Day {
 		}
 
 		for (var s : this.input) {
-			if (!s.split("contain")[1].trim().matches("no other bags.")) {
+			if (!s.split("contain")[1].trim()
+			                          .matches("no other bags.")) {
 				var parentBagColor = s.split("contain")[0].split("bags")[0].trim();
 				var containingBagsString = s.split("contain")[1].split(",");
 				for (var s1 : containingBagsString) {
-					var containingBag = s1.trim().split("\\s");
-					var numberOfBags = Integer.parseInt(containingBag[0].trim().substring(0, 1));
+					var containingBag = s1.trim()
+					                      .split("\\s");
+					var numberOfBags = Integer.parseInt(containingBag[0].trim()
+					                                                    .substring(0, 1));
 					var containingBagColor = containingBag[1].trim() + " " + containingBag[2].trim();
 					var actualBag = this.bags.stream()
-							.filter(bag -> bag.color.equals(containingBagColor))
-							.findFirst().get();
+					                         .filter(bag -> bag.color.equals(containingBagColor))
+					                         .findFirst()
+					                         .get();
 					var parentBag = this.bags.stream()
-							.filter(bag -> bag.color.equals(parentBagColor))
-							.findFirst().get();
+					                         .filter(bag -> bag.color.equals(parentBagColor))
+					                         .findFirst()
+					                         .get();
 					parentBag.addBag(actualBag, numberOfBags);
 				}
 			}
@@ -42,7 +47,9 @@ public class Day7 extends Day {
 
 	private static int getNumShinyGoldBagsRek(@NotNull Bag bag) {
 		var num = 0;
-		if (bag.bags.keySet().stream().anyMatch(bag1 -> bag1.color.equals("shiny gold"))) {
+		if (bag.bags.keySet()
+		            .stream()
+		            .anyMatch(bag1 -> bag1.color.equals("shiny gold"))) {
 			return 1;
 		}
 		for (var bag1 : bag.bags.keySet()) {
@@ -92,7 +99,8 @@ public class Day7 extends Day {
 				if (!entry.getKey().bags.isEmpty()) {
 					num += entry.getValue();
 				}
-				num += entry.getKey().getContainingBagsRek() * entry.getValue();
+				num += entry.getKey()
+				            .getContainingBagsRek() * entry.getValue();
 			}
 			return num;
 		}

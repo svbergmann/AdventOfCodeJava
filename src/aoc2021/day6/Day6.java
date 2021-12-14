@@ -14,13 +14,15 @@ public class Day6 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var list = new ArrayList<>(Arrays.stream(this.input.get(0).split(","))
-				.map(s -> new Lanternfish(Integer.parseInt(s))).toList());
+		var list = new ArrayList<>(Arrays.stream(this.input.get(0)
+		                                                   .split(","))
+		                                 .map(s -> new Lanternfish(Integer.parseInt(s)))
+		                                 .toList());
 		for (var i = 0; i < 80; i++) {
 			list.addAll(list.stream()
-					.filter(Lanternfish::dayPassed)
-					.map(l -> new Lanternfish(8))
-					.collect(Collectors.toCollection(ArrayList::new)));
+			                .filter(Lanternfish::dayPassed)
+			                .map(l -> new Lanternfish(8))
+			                .collect(Collectors.toCollection(ArrayList::new)));
 		}
 		return list.size() + "";
 	}
@@ -37,7 +39,8 @@ public class Day6 extends Day {
 		var amount7 = 0L;
 		var amount8 = 0L;
 
-		for (var s : this.input.get(0).toCharArray()) {
+		for (var s : this.input.get(0)
+		                       .toCharArray()) {
 			if (s != ' ') {
 				switch (s) {
 					case '1' -> amount1++;

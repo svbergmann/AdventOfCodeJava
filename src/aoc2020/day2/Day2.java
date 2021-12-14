@@ -48,7 +48,8 @@ public class Day2 extends Day {
 					// Split at " " then at ":" for the character
 					char character = s.split("\\s")[1].split(":")[0].toCharArray()[0];
 
-					char[] sequence = s.split(":")[1].trim().toCharArray();
+					char[] sequence = s.split(":")[1].trim()
+					                                 .toCharArray();
 					boolean contains = false;
 					if (start < sequence.length) {
 						if (sequence[start] == character) {

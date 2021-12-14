@@ -11,14 +11,17 @@ public class Day1 extends Day {
 
 	public Day1() {
 		super(2021, 1);
-		this.numbers = this.input.stream().mapToInt(Integer::parseInt).boxed().toList();
+		this.numbers = this.input.stream()
+		                         .mapToInt(Integer::parseInt)
+		                         .boxed()
+		                         .toList();
 	}
 
 	@Override
 	public String resultPartOne() {
 		return IntStream.range(0, this.numbers.size() - 1)
-				.filter(i -> this.numbers.get(i) < this.numbers.get(i + 1))
-				.count()
+		                .filter(i -> this.numbers.get(i) < this.numbers.get(i + 1))
+		                .count()
 				+ "";
 	}
 

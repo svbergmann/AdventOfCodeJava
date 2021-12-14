@@ -30,7 +30,8 @@ public class Day6 extends Day {
 				this.splittedLines.add(new ArrayList<>());
 			}
 			for (String s : value.split("\\s")) {
-				this.splittedLines.get(splittedLinesCounter).add(s);
+				this.splittedLines.get(splittedLinesCounter)
+				                  .add(s);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-package aoc2021.Day14;
+package aoc2021.day14;
 
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
@@ -21,7 +21,8 @@ public class Day14 extends Day {
 		this.polymerTemplate = list.get(0);
 		this.rules = new HashSet<>();
 		for (var i = 2; i < list.size(); i++) {
-			var line = list.get(i).split("->");
+			var line = list.get(i)
+			               .split("->");
 			this.rules.add(new Utilities.Pair<>(line[0].trim(), line[1].trim()));
 		}
 	}
@@ -34,7 +35,8 @@ public class Day14 extends Day {
 			for (var j = 0; j < tmpStringBuilder.length() - 1; j++) {
 				var pair = "" + tmpStringBuilder.charAt(j) + tmpStringBuilder.charAt(j + 1);
 				for (var p : this.rules) {
-					if (p.getKey().equals(pair)) {
+					if (p.getKey()
+					     .equals(pair)) {
 						resultingStringBuilder.append(p.getValue());
 						break;
 					}
@@ -62,10 +64,10 @@ public class Day14 extends Day {
 		this.init(example);
 		var res = this.getResultingPolymer(steps);
 		var chars = res.chars()
-				.distinct()
-				.sorted()
-				.mapToObj(i -> (char) i)
-				.toList();
+		               .distinct()
+		               .sorted()
+		               .mapToObj(i -> (char) i)
+		               .toList();
 		var amounts = new HashSet<Long>();
 		for (var c : chars) {
 			amounts.add(res.chars().filter(c1 -> c1 == c).count());

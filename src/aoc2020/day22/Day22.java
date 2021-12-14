@@ -103,8 +103,10 @@ public class Day22 extends Day {
 		var playerOneLists = new ArrayList<List<Integer>>();
 		var playerTwoLists = new ArrayList<List<Integer>>();
 		while (!playerOneList.isEmpty() && !playerTwoList.isEmpty()) {
-			if (playerOneLists.stream().anyMatch(list -> list.equals(playerOneList)) &&
-					playerTwoLists.stream().anyMatch(list -> list.equals(playerTwoList))) {
+			if (playerOneLists.stream()
+			                  .anyMatch(list -> list.equals(playerOneList)) &&
+					playerTwoLists.stream()
+					              .anyMatch(list -> list.equals(playerTwoList))) {
 				return new Game(1, playerOneList, playerTwoList);
 			}
 			playerOneLists.add(new ArrayList<>(playerOneList));

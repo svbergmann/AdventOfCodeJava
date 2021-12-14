@@ -11,18 +11,17 @@ import java.util.Objects;
 
 public class Day12 extends Day {
 
-	private final HashSet<Cave> caves;
 	private HashSet<ArrayList<Cave>> paths;
-	private Cave startCave = null;
+	private Cave startCave;
 
 	public Day12() {
 		super(2021, 12);
-		this.caves = new HashSet<>();
+		var caves = new HashSet<Cave>();
 		for (var s : this.input) {
 			var s1 = s.split("-");
 			Cave cave1 = null;
 			Cave cave2 = null;
-			for (var cave : this.caves) {
+			for (var cave : caves) {
 				if (cave.name.equals(s1[0])) {
 					cave1 = cave;
 					continue;
@@ -33,21 +32,21 @@ public class Day12 extends Day {
 			}
 			if (cave1 != null) {
 				if (cave2 == null) cave2 = new Cave(s1[1]);
-				this.caves.add(cave2);
+				caves.add(cave2);
 			} else if (cave2 != null) {
 				cave1 = new Cave(s1[0]);
-				this.caves.add(cave1);
+				caves.add(cave1);
 			} else {
 				cave1 = new Cave(s1[0]);
-				this.caves.add(cave1);
+				caves.add(cave1);
 				cave2 = new Cave(s1[1]);
-				this.caves.add(cave2);
+				caves.add(cave2);
 			}
 			cave1.addConnection(cave2);
 			cave2.addConnection(cave1);
 		}
 		this.startCave = null;
-		for (var cave : this.caves) {
+		for (var cave : caves) {
 			if (cave.name.equals("start")) {
 				this.startCave = cave;
 				break;
@@ -59,6 +58,13 @@ public class Day12 extends Day {
 	public String resultPartOne() {
 		this.paths = new HashSet<>();
 		this.findAllPathsRek(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths);
+		return this.paths.size() + "";
+	}
+
+	@Override
+	public String resultPartTwo() {
+		this.paths = new HashSet<>();
+		this.findAllPathsRekPart2(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths, false);
 		return this.paths.size() + "";
 	}
 
@@ -97,13 +103,6 @@ public class Day12 extends Day {
 		}
 	}
 
-	@Override
-	public String resultPartTwo() {
-		this.paths = new HashSet<>();
-		this.findAllPathsRekPart2(this.startCave, new ArrayList<>(List.of(this.startCave)), this.paths, false);
-		return this.paths.size() + "";
-	}
-
 	private static class Cave {
 		private final HashSet<Cave> connections;
 		String name;
@@ -122,16 +121,16 @@ public class Day12 extends Day {
 		}
 
 		@Override
+		public int hashCode() {
+			return Objects.hash(this.name);
+		}
+
+		@Override
 		public boolean equals(Object o) {
 			if (this == o) return true;
 			if (o == null || this.getClass() != o.getClass()) return false;
 			Cave cave = (Cave) o;
 			return Objects.equals(this.name, cave.name);
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(this.name);
 		}
 
 		@Override

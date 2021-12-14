@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class ReadAndSaveUtils {
 
 	public static String returnFileContent(String filename) throws FileNotFoundException {
-		return new BufferedReader(new FileReader(filename)).lines().collect(Collectors.joining("\n"));
+		return new BufferedReader(new FileReader(filename)).lines()
+		                                                   .collect(Collectors.joining("\n"));
 	}
 }

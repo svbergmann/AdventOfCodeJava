@@ -44,9 +44,11 @@ public class Main {
 		int feweststeps = Integer.MAX_VALUE;
 		for (Position position : intersection) {
 			int temp =
-					wire1AsArrayList.getPositionsAsArrayList().indexOf(position)
+					wire1AsArrayList.getPositionsAsArrayList()
+					                .indexOf(position)
 							+ 1
-							+ wire2AsArrayList.getPositionsAsArrayList().indexOf(position)
+							+ wire2AsArrayList.getPositionsAsArrayList()
+							                  .indexOf(position)
 							+ 1;
 			if (feweststeps > temp) {
 				feweststeps = temp;

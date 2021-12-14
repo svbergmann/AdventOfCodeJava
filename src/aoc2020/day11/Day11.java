@@ -33,10 +33,12 @@ public class Day11 extends Day {
 		} else {
 			tmp = this.input;
 		}
-		this.seats = new char[tmp.size()][tmp.get(0).length()];
+		this.seats = new char[tmp.size()][tmp.get(0)
+		                                     .length()];
 
 		for (int i = 0; i < tmp.size(); i++) {
-			this.seats[i] = tmp.get(i).toCharArray();
+			this.seats[i] = tmp.get(i)
+			                   .toCharArray();
 		}
 	}
 

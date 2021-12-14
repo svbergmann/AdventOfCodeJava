@@ -12,7 +12,9 @@ public class Day11 extends Day {
 
 	private void init(boolean example) {
 		this.octopi = new Octupus[example ? this.example.size() : this.input.size()]
-				[example ? this.example.get(0).toCharArray().length : this.input.get(0).toCharArray().length];
+				[example ? this.example.get(0)
+				                       .toCharArray().length : this.input.get(0)
+				                                                         .toCharArray().length];
 		for (var i = 0; i < 10; i++) {
 			var line = example ? this.example.get(i) : this.input.get(i);
 			var j = 0;
@@ -39,6 +41,19 @@ public class Day11 extends Day {
 //			}
 		}
 		return res + "";
+	}
+
+	@Override
+	public String resultPartTwo() {
+		this.init(false);
+		var amountOfOctopi = this.octopi.length * this.octopi[0].length;
+		var step = 0;
+		var value = 0L;
+		do {
+			value = this.doStep();
+			step++;
+		} while (value != amountOfOctopi);
+		return step + "";
 	}
 
 	private long doStep() {
@@ -90,19 +105,6 @@ public class Day11 extends Day {
 				if (x + 1 < this.octopi.length) this.flash(x + 1, y - 1, totalFlashes, true);
 			}
 		}
-	}
-
-	@Override
-	public String resultPartTwo() {
-		this.init(false);
-		var amountOfOctopi = this.octopi.length * this.octopi[0].length;
-		var step = 0;
-		var value = 0L;
-		do {
-			value = this.doStep();
-			step++;
-		} while (value != amountOfOctopi);
-		return step + "";
 	}
 
 	private static class Octupus {

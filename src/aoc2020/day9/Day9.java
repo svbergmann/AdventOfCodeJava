@@ -14,7 +14,10 @@ public class Day9 extends Day {
 	public Day9() {
 		super(2020, 9);
 		this.numbers =
-				this.input.stream().mapToLong(Long::parseLong).boxed().collect(Collectors.toList());
+				this.input.stream()
+				          .mapToLong(Long::parseLong)
+				          .boxed()
+				          .collect(Collectors.toList());
 		this.lengthOfPreamble = 25;
 	}
 
@@ -63,7 +66,9 @@ public class Day9 extends Day {
 		for (int i = firstAddedIndex; i < numbers.size(); i++) {
 			Long number = numbers.get(i);
 			contiguousSet.add(number);
-			long sum = contiguousSet.stream().mapToLong(Long::longValue).sum();
+			long sum = contiguousSet.stream()
+			                        .mapToLong(Long::longValue)
+			                        .sum();
 			if (sum == invalidNumber && contiguousSet.size() >= 2) {
 				found = true;
 				break;
@@ -75,8 +80,14 @@ public class Day9 extends Day {
 			}
 		}
 		if (found) {
-			return contiguousSet.stream().mapToLong(Long::longValue).min().getAsLong()
-					+ contiguousSet.stream().mapToLong(Long::longValue).max().getAsLong();
+			return contiguousSet.stream()
+			                    .mapToLong(Long::longValue)
+			                    .min()
+			                    .getAsLong()
+					+ contiguousSet.stream()
+					               .mapToLong(Long::longValue)
+					               .max()
+					               .getAsLong();
 		}
 		return 0;
 	}

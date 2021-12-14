@@ -21,10 +21,15 @@ public class Day4 extends Day {
 		List<Board> winningList;
 		for (var i : this.drawnNumbers) {
 			this.boards.forEach(board -> board.draw(i));
-			winningList = this.boards.stream().parallel().filter(Board::won).toList();
+			winningList = this.boards.stream()
+			                         .parallel()
+			                         .filter(Board::won)
+			                         .toList();
 			if (!winningList.isEmpty()) {
-				return winningList.get(0).sumUnmarkedNumbers() + " * " + i + " = "
-						+ winningList.get(0).sumUnmarkedNumbers() * i + "";
+				return winningList.get(0)
+				                  .sumUnmarkedNumbers() + " * " + i + " = "
+						+ winningList.get(0)
+						             .sumUnmarkedNumbers() * i + "";
 			}
 		}
 		return "No winning score found!";
@@ -35,9 +40,12 @@ public class Day4 extends Day {
 		this.init(false);
 		for (var i : this.drawnNumbers) {
 			this.boards.forEach(board -> board.draw(i));
-			if (this.boards.size() == 1 && this.boards.get(0).won()) {
-				return this.boards.get(0).sumUnmarkedNumbers() + " * " + i + " = "
-						+ this.boards.get(0).sumUnmarkedNumbers() * i + "";
+			if (this.boards.size() == 1 && this.boards.get(0)
+			                                          .won()) {
+				return this.boards.get(0)
+				                  .sumUnmarkedNumbers() + " * " + i + " = "
+						+ this.boards.get(0)
+						             .sumUnmarkedNumbers() * i + "";
 			}
 			this.boards.removeIf(Board::won);
 		}
@@ -47,9 +55,15 @@ public class Day4 extends Day {
 	private void init(boolean example) {
 		this.drawnNumbers = example ?
 				new ArrayList<>(
-						Arrays.stream(this.example.get(0).split(",")).map(Integer::parseInt).toList()) :
+						Arrays.stream(this.example.get(0)
+						                          .split(","))
+						      .map(Integer::parseInt)
+						      .toList()) :
 				new ArrayList<>(
-						Arrays.stream(this.input.get(0).split(",")).map(Integer::parseInt).toList());
+						Arrays.stream(this.input.get(0)
+						                        .split(","))
+						      .map(Integer::parseInt)
+						      .toList());
 
 		this.boards = new ArrayList<>();
 		var size = example ? this.example.size() : this.input.size();
@@ -57,8 +71,14 @@ public class Day4 extends Day {
 			var tmp = new int[5][5];
 			for (var j = 0; j < 5; j++) {
 				var split = example ?
-						Arrays.stream(this.example.get(i + j).split("\s")).filter(s -> !s.isEmpty()).toList() :
-						Arrays.stream(this.input.get(i + j).split("\s")).filter(s -> !s.isEmpty()).toList();
+						Arrays.stream(this.example.get(i + j)
+						                          .split("\s"))
+						      .filter(s -> !s.isEmpty())
+						      .toList() :
+						Arrays.stream(this.input.get(i + j)
+						                        .split("\s"))
+						      .filter(s -> !s.isEmpty())
+						      .toList();
 				for (int k = 0; k < 5; k++) {
 					tmp[j][k] = Integer.parseInt(split.get(k));
 				}

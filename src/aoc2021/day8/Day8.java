@@ -6,7 +6,13 @@ import org.jetbrains.annotations.Nullable;
 import utils.Day;
 import utils.Utilities;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Day8 extends Day {
@@ -28,8 +34,12 @@ public class Day8 extends Day {
 		this.setOfDigits = new ArrayList<>();
 		for (String s : this.input) {
 			var split = s.split("\\|");
-			this.setOfDigits.add(new Utilities.Pair<>(Arrays.stream(split[0].trim().split("\s")).toList(),
-					Arrays.stream(split[1].trim().split("\s")).toList()));
+			this.setOfDigits.add(new Utilities.Pair<>(Arrays.stream(split[0].trim()
+			                                                                .split("\s"))
+			                                                .toList(),
+					Arrays.stream(split[1].trim()
+					                      .split("\s"))
+					      .toList()));
 		}
 	}
 
@@ -50,14 +60,16 @@ public class Day8 extends Day {
 
 	@Override
 	public String resultPartTwo() {
-		return this.setOfDigits.stream().mapToInt(value -> {
-			var display = new Display(value.getKey());
-			var sb = new StringBuilder();
-			for (var digits : value.getValue()) {
-				sb.append(display.getDecodedNumber(digits));
-			}
-			return Integer.parseInt(sb.toString());
-		}).sum() + "";
+		return this.setOfDigits.stream()
+		                       .mapToInt(value -> {
+			                       var display = new Display(value.getKey());
+			                       var sb = new StringBuilder();
+			                       for (var digits : value.getValue()) {
+				                       sb.append(display.getDecodedNumber(digits));
+			                       }
+			                       return Integer.parseInt(sb.toString());
+		                       })
+		                       .sum() + "";
 	}
 
 	private static class Display {
@@ -76,23 +88,23 @@ public class Day8 extends Day {
 		public Display(@NotNull List<String> patterns) {
 			this.chars = new char[7][6];
 			var sortedPatterns = patterns.stream()
-					.map(s -> s.chars()
-							.sorted()
-							.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-							.toString())
-					.sorted(Comparator.comparingInt(String::length))
-					.toList();
+			                             .map(s -> s.chars()
+			                                        .sorted()
+			                                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+			                                        .toString())
+			                             .sorted(Comparator.comparingInt(String::length))
+			                             .toList();
 
 			this.one = sortedPatterns.get(0);
 			this.four = sortedPatterns.get(2);
 			this.seven = sortedPatterns.get(1);
 			this.eight = sortedPatterns.get(9);
 			var zeroOrSixOrNine = sortedPatterns.stream()
-					.filter(s -> s.length() == 6)
-					.collect(Collectors.toCollection(ArrayList::new));
+			                                    .filter(s -> s.length() == 6)
+			                                    .collect(Collectors.toCollection(ArrayList::new));
 			var twoOrThreeOrFive = sortedPatterns.stream()
-					.filter(s -> s.length() == 5)
-					.collect(Collectors.toCollection(ArrayList::new));
+			                                     .filter(s -> s.length() == 5)
+			                                     .collect(Collectors.toCollection(ArrayList::new));
 
 			// Compute top
 			{
@@ -339,7 +351,9 @@ public class Day8 extends Day {
 			}
 			if (tmp.isEmpty()) return null;
 			var sb = new StringBuilder();
-			sb.append("Number ").append(number).append(":\n");
+			sb.append("Number ")
+			  .append(number)
+			  .append(":\n");
 			for (char[] aChar : this.chars) {
 				for (char c : aChar) {
 					boolean found = false;

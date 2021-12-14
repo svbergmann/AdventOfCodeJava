@@ -13,7 +13,8 @@ public class Day13 extends Day {
 		super(2020, 13);
 		this.busses = new ArrayList<>();
 		this.earliestEstimatedTimeArriving = Integer.parseInt(this.input.get(0));
-		for (String c : this.input.get(1).split(",")) {
+		for (String c : this.input.get(1)
+		                          .split(",")) {
 			if (!c.equals("x")) {
 				this.busses.add(new Bus(Integer.parseInt(c)));
 			}

@@ -16,10 +16,10 @@ public class Day10 extends Day {
 		// Add 0 to the beginning
 		this.sortedJoltAdapters.add(0);
 		this.example.stream()
-				.mapToInt(Integer::parseInt)
-				.sorted()
-				.boxed()
-				.forEach(this.sortedJoltAdapters::add);
+		            .mapToInt(Integer::parseInt)
+		            .sorted()
+		            .boxed()
+		            .forEach(this.sortedJoltAdapters::add);
 		// Add the device built in adapter
 		this.sortedJoltAdapters.add(this.sortedJoltAdapters.get(this.sortedJoltAdapters.size() - 1) + 3);
 	}

@@ -104,7 +104,9 @@ public class Day10 extends Day {
 				if (illegalCharacterFound) break;
 			}
 		}
-		return illegalCharacters.stream().mapToInt(CORRUPTED_CHARACTER_SCORES::get).sum() + "";
+		return illegalCharacters.stream()
+		                        .mapToInt(CORRUPTED_CHARACTER_SCORES::get)
+		                        .sum() + "";
 	}
 
 	@Override
@@ -133,12 +135,12 @@ public class Day10 extends Day {
 		}
 //		completionStringList.forEach(s -> System.out.println(s + " - " + getCompletionScore(s) + " total points."));
 		return (long) completionStringList.stream()
-				.mapToLong(Day10::getCompletionScore)
-				.sorted()
-				.skip((completionStringList.size() - 1) / 2)
-				.limit(2 - completionStringList.size() % 2)
-				.average()
-				.orElse(Double.NaN)
+		                                  .mapToLong(Day10::getCompletionScore)
+		                                  .sorted()
+		                                  .skip((completionStringList.size() - 1) / 2)
+		                                  .limit(2 - completionStringList.size() % 2)
+		                                  .average()
+		                                  .orElse(Double.NaN)
 				+ "";
 	}
 }

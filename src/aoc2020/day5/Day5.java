@@ -60,8 +60,10 @@ public class Day5 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		Optional<Seat> s = this.seats.stream().max(Comparator.comparingInt(o -> o.seatID));
-		return s.map(seat -> String.valueOf(seat.seatID)).orElse(null);
+		Optional<Seat> s = this.seats.stream()
+		                             .max(Comparator.comparingInt(o -> o.seatID));
+		return s.map(seat -> String.valueOf(seat.seatID))
+		        .orElse(null);
 	}
 
 	@Override

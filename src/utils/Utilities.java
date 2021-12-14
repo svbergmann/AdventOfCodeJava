@@ -5,7 +5,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -29,10 +33,12 @@ public class Utilities {
 			var filename =
 					"src/aoc" + year + "/day" + numberOfDay + (example ? "/example.txt" : "/input.txt");
 			try (var reader = new BufferedReader(new FileReader(filename))) {
-				reader.lines().forEach(res::add);
+				reader.lines()
+				      .forEach(res::add);
 			}
 		} catch (IOException e) {
-			Logger.getGlobal().info("Reading did not work.");
+			Logger.getGlobal()
+			      .info("Reading did not work.");
 		}
 		return res;
 	}
@@ -64,8 +70,8 @@ public class Utilities {
 	public static <T> Set<T> findDuplicates(@NotNull Collection<T> collection) {
 		var uniques = new HashSet<T>();
 		return collection.stream()
-				.filter(t -> !uniques.add(t))
-				.collect(Collectors.toCollection(HashSet::new));
+		                 .filter(t -> !uniques.add(t))
+		                 .collect(Collectors.toCollection(HashSet::new));
 	}
 
 	public static class Pair<K, V> {

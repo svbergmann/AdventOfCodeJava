@@ -22,7 +22,8 @@ public class Day8 extends Day {
 	 */
 	private void readInstructions() {
 		for (int i = 0; i < this.input.size(); i++) {
-			String[] tmpInstruction = this.input.get(i).split(" ");
+			String[] tmpInstruction = this.input.get(i)
+			                                    .split(" ");
 			this.instructionLines.add(
 					new InstructionLine(i,
 							Integer.parseInt(tmpInstruction[1]),
@@ -44,12 +45,14 @@ public class Day8 extends Day {
 			for (int i = instructionNumberChanged + 1; i < this.instructionLines.size(); i++) {
 				switch (this.instructionLines.get(i).instruction) {
 					case jmp -> {
-						this.instructionLines.get(i).changeInstruction(Instruction.nop);
+						this.instructionLines.get(i)
+						                     .changeInstruction(Instruction.nop);
 						instructionNumberChanged = i;
 						changed = true;
 					}
 					case nop -> {
-						this.instructionLines.get(i).changeInstruction(Instruction.jmp);
+						this.instructionLines.get(i)
+						                     .changeInstruction(Instruction.jmp);
 						instructionNumberChanged = i;
 						changed = true;
 					}
@@ -85,7 +88,8 @@ public class Day8 extends Day {
 				break;
 			}
 			this.instructionLines.get(i).visited = true;
-			i += this.instructionLines.get(i).execute();
+			i += this.instructionLines.get(i)
+			                          .execute();
 		}
 		return terminated;
 	}
@@ -134,7 +138,8 @@ public class Day8 extends Day {
 				case nop:
 					return 1;
 				default:
-					Logger.getGlobal().info("No executable instruction found.");
+					Logger.getGlobal()
+					      .info("No executable instruction found.");
 			}
 			return 0;
 		}
