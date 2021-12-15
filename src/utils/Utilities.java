@@ -25,13 +25,13 @@ public class Utilities {
 	 *
 	 * @param year        the specific year
 	 * @param numberOfDay the specific day
-	 * @param example     if the returned file shall be the example.txt file
+	 * @param example     if the returned file shall be the example.txt.txt file
 	 * @return an ArrayList of the lines or an empty one if reading did not work
 	 */
 	public static @NotNull List<String> readFromFile(int year, int numberOfDay, boolean example) {
 		var res = new ArrayList<String>();
 		try {
-			var filename = "src/aoc" + year + "/day" + numberOfDay + (example ? "/example.txt" : "/input.txt");
+			var filename = "src/aoc" + year + "/day" + numberOfDay + (example ? "/example.txt.txt" : "/input.txt");
 			try (var reader = new BufferedReader(new FileReader(filename))) {
 				reader.lines().forEach(res::add);
 			}
