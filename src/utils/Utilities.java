@@ -7,7 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -31,7 +30,7 @@ public class Utilities {
 	public static @NotNull List<String> readFromFile(int year, int numberOfDay, boolean example) {
 		var res = new ArrayList<String>();
 		try {
-			var filename = "src/aoc" + year + "/day" + numberOfDay + (example ? "/example.txt.txt" : "/input.txt");
+			var filename = "src/aoc" + year + "/day" + numberOfDay + (example ? "/example.txt" : "/input.txt");
 			try (var reader = new BufferedReader(new FileReader(filename))) {
 				reader.lines().forEach(res::add);
 			}
@@ -41,15 +40,33 @@ public class Utilities {
 		return res;
 	}
 
+	/**
+	 * Reads ints from a file and puts them linewise into a 2dim array.
+	 *
+	 * @param list the list to be processed
+	 * @return a 2dim array of ints
+	 */
+	public static int[][] getListAsTwoDimArray(List<String> list) {
+		var array = new int[list.size()][list.get(0).length()];
+		for (var i = 0; i < list.size(); i++) {
+			var charArray = list.get(i).toCharArray();
+			for (var j = 0; j < charArray.length; j++) {
+				array[i][j] = charArray[j] - '0';
+			}
+		}
+		return array;
+	}
+
 	public static @NotNull String getTwoDimArrayString(int[][] twoDimArray) {
 		if (twoDimArray == null) return "";
-		String res = "";
-		for (var ints : twoDimArray) {
-			res = Arrays.stream(ints)
-			            .mapToObj(anInt -> String.valueOf((anInt == 0) ? "." : anInt))
-			            .collect(Collectors.joining("", "", "\n"));
+		var res = new StringBuilder();
+		for (int[] ints : twoDimArray) {
+			for (int anInt : ints) {
+				res.append(anInt);
+			}
+			res.append("\n");
 		}
-		return res;
+		return res.toString();
 	}
 
 	public static @NotNull String getTwoDimArrayString(boolean[][] twoDimArray) {
@@ -64,6 +81,13 @@ public class Utilities {
 		return res.toString();
 	}
 
+	/**
+	 * Tries to compute all duplicates from the given collection.
+	 *
+	 * @param collection the collection where the duplicates are
+	 * @param <T>        the generic param
+	 * @return a set of all duplicates
+	 */
 	public static <T> Set<T> findDuplicates(@NotNull Collection<T> collection) {
 		var uniques = new HashSet<T>();
 		return collection.stream()

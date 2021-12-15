@@ -18,7 +18,7 @@ public class Day15 extends Day {
 		super(2021, 15);
 	}
 
-	public Dijkstra.Graph<Point> generateNewGraph(@NotNull List<String> list) {
+	private static Dijkstra.@NotNull Graph<Point> generateNewGraph(@NotNull List<String> list) {
 		var riskLevels = new int[list.size()][list.get(0).length()];
 		var nodesMap = new HashMap<Point, Dijkstra.Node<Point>>();
 
@@ -53,14 +53,14 @@ public class Day15 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var graph = this.generateNewGraph(this.input);
+		var graph = generateNewGraph(this.input);
 		Dijkstra.calculateShortestPathFromSource(graph, graph.getStartNode());
 		return graph.getEndNode().getDistance() + "";
 	}
 
 	@Override
 	public String resultPartTwo() {
-		var graph = this.generateNewGraph(this.generateBigInputString());
+		var graph = generateNewGraph(this.generateBigInputString());
 		Dijkstra.calculateShortestPathFromSource(graph, graph.getStartNode());
 		return graph.getEndNode().getDistance() + "";
 	}

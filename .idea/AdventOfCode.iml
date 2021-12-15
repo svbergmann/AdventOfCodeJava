@@ -40,6 +40,5 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="lombok" level="project" />
-    <orderEntry type="library" name="checker-qual-3.8.0" level="project" />
   </component>
 </module>
