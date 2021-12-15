@@ -1,12 +1,12 @@
 package utils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Day {
 
 	public final int number;
-	protected final ArrayList<String> example;
-	protected final ArrayList<String> input;
+	protected final List<String> example;
+	protected final List<String> input;
 
 	public Day(int year, int numberOfDay) {
 		this.number = numberOfDay;

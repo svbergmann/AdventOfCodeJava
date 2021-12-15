@@ -2,7 +2,7 @@ package aoc2021.day14;
 
 import org.jetbrains.annotations.NotNull;
 import utils.Day;
-import utils.Utilities;
+import utils.Pair;
 
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class Day14 extends Day {
 
-	private Set<Utilities.Pair<String, String>> rules;
+	private Set<Pair<String, String>> rules;
 	private String polymerTemplate;
 
 	public Day14() {
@@ -27,7 +27,7 @@ public class Day14 extends Day {
 		this.rules = new HashSet<>();
 		for (var i = 2; i < list.size(); i++) {
 			var line = list.get(i).split("->");
-			this.rules.add(new Utilities.Pair<>(line[0].trim(), line[1].trim()));
+			this.rules.add(new Pair<>(line[0].trim(), line[1].trim()));
 		}
 	}
 

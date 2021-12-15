@@ -3,7 +3,6 @@ package aoc2020.day3;
 import utils.Day;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 
 public class Day3 extends Day {
 
@@ -13,7 +12,7 @@ public class Day3 extends Day {
 
 	public Day3() {
 		super(2020, 3);
-		ArrayList<String> arrayList = this.input;
+		var arrayList = this.input;
 		this.sizeOfLines = arrayList.size() * 10;
 		this.sizeOfArray = arrayList.size();
 		// Geology array, where true means a tree an false means a free space

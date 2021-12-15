@@ -1,6 +1,6 @@
 package aoc2019.Day2;
 
-import utils.ReadAndSaveUtils;
+import utils.Utilities;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException {
 		ArrayList<Integer> intCode = new ArrayList<>();
-		String fileInput = ReadAndSaveUtils.returnFileContent("src/aoc2019.Day2/IntcodeInput");
+		String fileInput = Utilities.returnFileContent("src/aoc2019.Day2/IntcodeInput");
 		String[] strings = fileInput.split(",");
 		for (String string : strings) {
 			intCode.add(Integer.parseInt(string));

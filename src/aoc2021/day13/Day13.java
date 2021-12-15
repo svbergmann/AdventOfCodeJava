@@ -1,6 +1,7 @@
 package aoc2021.day13;
 
 import utils.Day;
+import utils.Pair;
 import utils.Utilities;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 public class Day13 extends Day {
 
 	private boolean[][] markedPoints;
-	private List<Utilities.Pair<String, Integer>> instructionList;
+	private List<Pair<String, Integer>> instructionList;
 
 	public Day13() {
 		super(2021, 13);
@@ -45,9 +46,9 @@ public class Day13 extends Day {
 			if (s.startsWith("fold along")) {
 				var value = Integer.parseInt(s.split("=")[1]);
 				if (s.startsWith("fold along y=")) {
-					this.instructionList.add(new Utilities.Pair<>("y", value));
+					this.instructionList.add(new Pair<>("y", value));
 				} else if (s.startsWith("fold along x=")) {
-					this.instructionList.add(new Utilities.Pair<>("x", value));
+					this.instructionList.add(new Pair<>("x", value));
 				}
 			}
 		}

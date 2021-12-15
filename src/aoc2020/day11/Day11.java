@@ -2,7 +2,8 @@ package aoc2020.day11;
 
 import utils.Day;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class Day11 extends Day {
 
@@ -27,19 +28,10 @@ public class Day11 extends Day {
 	}
 
 	private void initSeatsArray(boolean example) {
-		ArrayList<String> tmp;
-		if (example) {
-			tmp = this.example;
-		} else {
-			tmp = this.input;
-		}
-		this.seats = new char[tmp.size()][tmp.get(0)
-		                                     .length()];
+		List<String> tmp = example ? this.example : this.input;
+		this.seats = new char[tmp.size()][tmp.get(0).length()];
 
-		for (int i = 0; i < tmp.size(); i++) {
-			this.seats[i] = tmp.get(i)
-			                   .toCharArray();
-		}
+		IntStream.range(0, tmp.size()).forEach(i -> this.seats[i] = tmp.get(i).toCharArray());
 	}
 
 	private void modellingSeatsPartOne() {
@@ -111,15 +103,6 @@ public class Day11 extends Day {
 			for (int i = 0; i < this.seats.length; i++) {
 				System.arraycopy(tmp[i], 0, this.seats[i], 0, this.seats[i].length);
 			}
-		}
-	}
-
-	private void printArray() {
-		for (char[] seat : this.seats) {
-			for (char c : seat) {
-				System.out.print(c);
-			}
-			System.out.print("\n");
 		}
 	}
 

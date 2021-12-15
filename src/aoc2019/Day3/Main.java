@@ -1,6 +1,6 @@
 package aoc2019.Day3;
 
-import utils.ReadAndSaveUtils;
+import utils.Utilities;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) throws FileNotFoundException {
 
-		String string = ReadAndSaveUtils.returnFileContent("src/aoc2019.Day3/InputWires");
+		String string = Utilities.returnFileContent("src/aoc2019.Day3/InputWires");
 		String[] bigWires = string.split("\n");
 		String[] wires1 = bigWires[0].split(",");
 		WirePiece[] wirePieces1 = new WirePiece[wires1.length];

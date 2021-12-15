@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import utils.Day;
-import utils.Utilities;
+import utils.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class Day8 extends Day {
 
-	private final List<Utilities.Pair<List<String>, List<String>>> setOfDigits;
+	private final List<Pair<List<String>, List<String>>> setOfDigits;
 	private final Map<Integer, Integer> uniqueNumberCount;
 	private Map<String, Integer> charsToRenderNumber;
 
@@ -34,9 +34,9 @@ public class Day8 extends Day {
 		this.setOfDigits = new ArrayList<>();
 		for (String s : this.input) {
 			var split = s.split("\\|");
-			this.setOfDigits.add(new Utilities.Pair<>(Arrays.stream(split[0].trim()
-			                                                                .split("\s"))
-			                                                .toList(),
+			this.setOfDigits.add(new Pair<>(Arrays.stream(split[0].trim()
+			                                                      .split("\s"))
+			                                      .toList(),
 					Arrays.stream(split[1].trim()
 					                      .split("\s"))
 					      .toList()));
@@ -45,12 +45,12 @@ public class Day8 extends Day {
 
 	@Override
 	public String resultPartOne() {
-		var output = new ArrayList<Utilities.Pair<Integer, String>>();
+		var output = new ArrayList<Pair<Integer, String>>();
 		for (var line : this.setOfDigits) {
 			for (var digits : line.getValue()) {
 				for (var entry : this.uniqueNumberCount.entrySet()) {
 					if (digits.length() == entry.getValue()) {
-						output.add(new Utilities.Pair<>(entry.getValue(), digits));
+						output.add(new Pair<>(entry.getValue(), digits));
 					}
 				}
 			}
