@@ -16,10 +16,12 @@ public class Main {
 		var time = System.currentTimeMillis();
 		var result = day.resultPartOne();
 		var diff = System.currentTimeMillis() - time;
-		System.out.println(Utilities.PART_ONE + result + " in " + diff + " milliseconds.");
+		System.out.println(Utilities.PART_ONE + result);
+		System.out.println("Computing took " + diff + " milliseconds.");
 		time = System.currentTimeMillis();
 		result = day.resultPartTwo();
 		diff = System.currentTimeMillis() - time;
-		System.out.println(Utilities.PART_TWO + result + " in " + diff + " milliseconds.");
+		System.out.println(Utilities.PART_TWO + result);
+		System.out.println("Computing took " + diff + " milliseconds.");
 	}
 }
