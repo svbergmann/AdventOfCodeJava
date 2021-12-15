@@ -26,12 +26,14 @@ public class Dijkstra<T> {
 		while (unsettledNodes.size() != 0) {
 			var currentNode = getLowestDistanceNode(unsettledNodes);
 			unsettledNodes.remove(currentNode);
-			currentNode.getAdjacentNodes().forEach((adjacentNode, value) -> {
+			for (Map.Entry<Node<T>, Integer> entry : currentNode.getAdjacentNodes().entrySet()) {
+				Node<T> adjacentNode = entry.getKey();
+				Integer value = entry.getValue();
 				if (!settledNodes.contains(adjacentNode)) {
 					CalculateMinimumDistance(adjacentNode, value, currentNode);
 					unsettledNodes.add(adjacentNode);
 				}
-			});
+			}
 			settledNodes.add(currentNode);
 		}
 		return graph;
@@ -64,6 +66,25 @@ public class Dijkstra<T> {
 	public static class Graph<T> {
 
 		private Set<Node<T>> nodes = new HashSet<>();
+
+		private Node<T> startNode;
+		private Node<T> endNode;
+
+		public Node<T> getStartNode() {
+			return this.startNode;
+		}
+
+		public void setStartNode(Node<T> startNode) {
+			this.startNode = startNode;
+		}
+
+		public Node<T> getEndNode() {
+			return this.endNode;
+		}
+
+		public void setEndNode(Node<T> endNode) {
+			this.endNode = endNode;
+		}
 
 		public void addNode(Node<T> nodeA) {
 			this.nodes.add(nodeA);
