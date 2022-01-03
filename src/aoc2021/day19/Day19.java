@@ -1,10 +1,10 @@
-package aoc2021.day18;
+package aoc2021.day19;
 
 import utils.Day;
 
-public class Day18 extends Day {
-    public Day18() {
-        super(2021, 18);
+public class Day19 extends Day {
+    public Day19() {
+        super(2021, 19);
     }
 
     @Override
